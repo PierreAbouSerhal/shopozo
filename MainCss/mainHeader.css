@@ -1,0 +1,240 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+body {
+    font-family: 'Roboto', sans-serif;;
+}
+
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+.header-bottom-line{
+    border-bottom: 1px solid #9E9E9E;
+}
+
+.header-container{
+    display: flex;
+    align-items: center;
+    height: 25px;
+  }
+
+.links{
+    font-size: 0.8rem;
+}
+
+.links a{
+    color: #6EBE47;
+}
+
+.header-left-corner{
+    width: 50%;
+}
+
+.header-right-corner{
+    display: flex;
+    height: 100%;
+    width: 50%;
+    white-space: nowrap;
+    align-items: center;
+    justify-content: end;
+    font-size: 0.8rem;
+}
+
+.header-right-corner a{
+    margin-left: 10%;
+    text-decoration: none;
+    color: black;
+}
+
+.cart-img{
+    width: 20px;
+    min-width: 20px;
+    cursor: pointer;
+}
+
+.search-bar-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    border-bottom: 1px solid #9E9E9E;
+}
+
+.logo-img{
+    width: 200px;
+    min-width: 100px;
+    cursor: pointer;
+}
+
+.search-bar{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 0 5% 0 5%;
+}   
+
+.search-bar-input{
+    width: 70%;
+}
+
+.search-bar-input input{
+    border: none;
+    width: 100%;
+}
+
+.categories-combo-box-container{
+    width: 30%;
+    border-left: 1px solid #9E9E9E;
+}
+
+.combo-box{
+    width: 100%;
+    border: none;
+    color: #8a8a8a;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;       /* Remove default arrow */
+    background-image: url("../ShopozoPics/select-arrow.svg");
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+}
+
+.search-btn{
+    border: none;
+    background-color: #118706;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 5% 10px 5%;
+    cursor: pointer;
+}
+
+.nav-bar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.nav-var-ul{
+    list-style-type: none;
+}
+
+.nav-var-ul li{
+    display: inline;
+}
+
+.nav-var-ul a{
+    text-decoration: none;
+    color: black;
+    font-size: 0.8rem;
+    margin-right: 3vw;
+}
+
+.nav-var-ul a:hover{
+    color: #6EBE47;
+    text-decoration: underline;
+}
+
+/*Mobile styling*/
+.mobile-logo-img {
+    width: 80px;
+    cursor: pointer;
+}
+
+.mobile-logo-container{
+    width: 50%;
+}
+
+.mobile-menu-header{
+    display: flex;
+    justify-content: end;
+    width: 50%;
+}
+
+.mobile-header-container{
+    display: flex;
+    align-items: center;
+}
+
+.menu-img{
+    width: 16px;
+    min-width: 16px;
+    margin-left: 10%;
+    cursor: pointer;
+}
+
+.mobile-search-bar-container{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.mobile-search-wrapper{
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 3px;
+    width: 80%;
+}
+
+.mobile-search-input{
+    border: none;
+    width: 100%;
+}
+
+.mobile-search-input:focus::placeholder{
+    color: transparent;
+}
+
+.mobile-search-btn{
+    background-color: #118706;
+    width: 15%;
+    background-image: url("../ShopozoPics/white-search-icon.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+@media (max-width: 500px){
+    .others{
+        display: none;
+    }
+}
+
+@media (min-width: 500px){
+    .mobile{
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+}
+
+}
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
