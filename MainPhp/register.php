@@ -1,5 +1,4 @@
 <?php
-    $title = "Register";
     $rightInfo = "DIscover fun, exciting, colorful products for your life."; 
 
     require_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/HtConfig/mailConfig.php");
@@ -123,11 +122,22 @@
         }
     }
 
-    include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/MainElements/signinRegisterHeader.php");
+    include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/MainElements/doctype.html");
 ?>
+<title>Register</title>
+<link rel="stylesheet" href="../MainCss/signinRegister.css">
+</head>
+    <body>
+
+    <div class="container">
+        <div class="logo-container">
+            <img class="logo-img" src="../ShopozoPics/shopozo-logo.png" alt="Shopozo">
+        </div>
+
         <div class="msg-container">
             <div class="msg <?php echo $status?>"><?php echo $msg;?></div>
         </div>
+
         <div class="main-container">
             <div class="left">
                 <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]?>" >

@@ -8,21 +8,20 @@
         exit();
     }
 
-    // WHEN ACCOUNT IS VERIFIED
-    if(isset($_GET["activated"]))
-    {
-        if($_GET["activated"] == 1)
-        {
-            $msg = "Your account has been verified, please login";
-            $status = "success";
-        }
-    }
-
-    $title     = "Signin";
-    $rightInfo = "Shop with confidence"; 
-
     $userEmail = $userPass = $msg = $status = "";
 
+    // WHEN ACCOUNT IS VERIFIED
+    if(isset($_GET["activated"]) && $_GET["activated"] == 1)
+    {
+        $msg    = "Your account has been verified, please login";
+        $status = "success";
+    }
+    else if(isset($_GET["changed"]) && $_GET["changed"] == 1)
+    {
+        $msg    = "Your password has been changed, please login";
+        $status = "success";
+    }
+    
     if(isset($_POST["signin"]))
     {
         include_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/PhpUtils/dbConx.php");
@@ -102,11 +101,22 @@
         }
     }
 
-    include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/MainElements/signinRegisterHeader.php");
+    include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/MainElements/doctype.html");
 ?>
+    <title>Signin</title>
+    <link rel="stylesheet" href="../MainCss/signinRegister.css">
+</head>
+<body>
+    <div class="container">
+
+        <div class="logo-container">
+            <img class="logo-img" src="../ShopozoPics/shopozo-logo.png" alt="Shopozo">
+        </div>
+
         <div class="msg-container">
             <div class="msg <?php echo $status?>"><?php echo $msg;?></div>
         </div>
+
         <div class="main-container">
             <div class="left">
                 <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]?>">
@@ -139,7 +149,7 @@
                     <img class="logo-img" src="../ShopozoPics/White-logo.png" alt="Shopozo">
                 </div>
                 <div class="right-info">
-                    <?php echo $rightInfo?>
+                    Shop with confidence
                 </div>
                 <div class="right-img-container">
                     <img class="right-img" src="../ShopozoPics/right-img.png" alt="">
