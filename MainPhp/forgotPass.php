@@ -91,6 +91,7 @@
 ?>
 <title>Forgot Pass</title>
     <link rel="stylesheet" href="../MainCss/signinRegister.css">
+    <script src="../MainJs/formValidation.js"></script>
 </head>
 <body>
         <div class="container">
@@ -105,40 +106,52 @@
 
                 <p class="reset-info"><?php echo $msg;?><p>
 
-                <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]?>">
+                <form id="forgotPassForm" method="POST" action="<?php echo $_SERVER["PHP_SELF"]?>">
                     <?php
                         if(!isset($_SESSION["PIN"]))
                         {
                             echo '
-                            <div class="input-container" style="margin: 0 5% 0 5%;">
-                                <input type="email" id="userEmail" name="userEmail" autocomplete="off" placeholder=" " value="'.$userEmail.'"/>
-                                <label for="userEmail" class="label-name">
-                                    <span class="content-name">Email address</span>
+                            <div id="de" class="input-container" style="margin: 0 5% 0 5%;">
+                                <input id="ie" type="text" name="userEmail" autocomplete="off" placeholder=" " value="'.$userEmail.'"/>
+                                <label id="le" for="ie" class="label-name">
+                                    <span id="se" class="content-name">Email address</span>
                                 </label>
+                            </div>
+                            <div class="error-msg-container" style="margin: 0 5% 0 5%;">
+                                <span id="errorEmail"></span>
                             </div>';
                         }
                         else
                         {
                             echo '
-                            <div class="input-container" style="margin: 0 5% 0 5%;">
-                                <input type="text" id="userPin" name="userPin" autocomplete="off" placeholder=" " value="'.$userPin.'"/>
-                                <label for="userPin" class="label-name">
-                                    <span class="content-name">Validation PIN</span>
+                            <div id="dpin" class="input-container" style="margin: 0 5% 0 5%;">
+                                <input id="ipin" type="text" name="userPin" autocomplete="off" placeholder=" " value="'.$userPin.'"/>
+                                <label id="lpin" for="ipin" class="label-name">
+                                    <span id="spin" class="content-name">Validation PIN</span>
                                 </label>
+                            </div>
+                            <div class="error-msg-container" style="margin: 0 5% 0 5%;">
+                                <span id="errorPin"></span>
                             </div>
                             
-                            <div class="input-container" style="margin: 0 5% 0 5%;">
-                                <input type="password" id="userNewPass" name="userNewPass" autocomplete="off" placeholder=" " value="'.$userNewPass.'"/>
-                                <label for="userNewPass" class="label-name">
-                                    <span class="content-name">New Password</span>
+                            <div id="dp1" class="input-container" style="margin: 0 5% 0 5%;">
+                                <input id="ip1" type="password" name="userNewPass" autocomplete="off" placeholder=" " value="'.$userNewPass.'"/>
+                                <label id="lp1" for="ip1" class="label-name">
+                                    <span id="sp1" class="content-name">New Password</span>
                                 </label>
                             </div>
+                            <div class="error-msg-container" style="margin: 0 5% 0 5%;">
+                                <span id="errorPass1"></span>
+                            </div>
 
-                            <div class="input-container" style="margin: 0 5% 0 5%;">
-                                <input type="password" id="userVerif" name="userVerif" autocomplete="off" placeholder=" " value="'.$userVerif.'"/>
-                                <label for="userVerif" class="label-name">
-                                    <span class="content-name">Verify Password</span>
+                            <div id="dp2" class="input-container" style="margin: 0 5% 0 5%;">
+                                <input id="ip2" type="password" name="userVerif" autocomplete="off" placeholder=" " value="'.$userVerif.'"/>
+                                <label id="lp2" for="ip2" class="label-name">
+                                    <span id="sp2" class="content-name">Verify Password</span>
                                 </label>
+                            </div>
+                            <div class="error-msg-container" style="margin: 0 5% 0 5%;">
+                                <span id="errorPass2"></span>
                             </div>
                             ';
                         }

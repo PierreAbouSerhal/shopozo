@@ -16,7 +16,6 @@
 .input-container{
     position: relative;
     height: 50px;
-    margin-bottom: 20px;
     overflow: hidden;
 }
 
@@ -30,6 +29,7 @@
 }
 
 .input-container label{
+    --bottomBorder:  3px solid #6EBE47;
     position: absolute;
     bottom: 0px;
     left: 0%;
@@ -47,7 +47,7 @@
     bottom: -1px;
     height: 100%;
     width: 100%;
-    border-bottom: 3px solid #6EBE47;
+    border-bottom: var(--bottomBorder);
     transform: translate(-100%);
     transition: transform 0.3s ease;
 }
@@ -72,6 +72,7 @@
 }
 
 .forgot-pass{
+    margin-top: 10px;
     float: right;
     font-size: 0.65rem;
     color: #6EBE47;
@@ -187,6 +188,14 @@
     width: 100%;
     height: 350px;
     max-width: 400px;
+}
+
+.error-msg-container{
+    height: 20px;
+    text-align: right;
+    font-size: 0.8rem;
+    padding-top: 3px;
+    color: #ff0a0a;
 }
 
 .reset-title{

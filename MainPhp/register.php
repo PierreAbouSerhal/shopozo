@@ -126,6 +126,7 @@
 ?>
 <title>Register</title>
 <link rel="stylesheet" href="../MainCss/signinRegister.css">
+<script src="../MainJs/formValidation.js"></script>
 </head>
     <body>
 
@@ -140,36 +141,51 @@
 
         <div class="main-container">
             <div class="left">
-                <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]?>" >
-                    <div class="input-container">
-                        <input type="text" id="ufn" name="userFname" autocomplete="off" placeholder=" " value="<?php echo $userFname?>"/>
-                        <label for="ufn" class="label-name">
-                            <span class="content-name">First Name</span>
+                <form id="registerForm" method="POST" action="<?php echo $_SERVER["PHP_SELF"]?>">
+                    <div id="dfn" class="input-container">
+                        <input type="text" id="ifn" name="userFname" autocomplete="off" placeholder=" " value="<?php echo $userFname?>"/>
+                        <label id="lfn" for="ifn" class="label-name">
+                            <span id="sfn" class="content-name">First Name</span>
                         </label>
                     </div>
-                    <div class="input-container">
-                        <input type="text" id="uln" name="userLname" autocomplete="off" placeholder=" " value="<?php echo $userLname?>"/>
-                        <label for="uln" class="label-name">
-                            <span class="content-name">Last Name</span>
+                    <div class="error-msg-container">
+                        <span id="errorFN"></span>
+                    </div>
+                    <div id="dln" class="input-container">
+                        <input id="iln" type="text" id="iln" name="userLname" autocomplete="off" placeholder=" " value="<?php echo $userLname?>"/>
+                        <label id="lln" for="iln" class="label-name">
+                            <span id="sln" class="content-name">Last Name</span>
                         </label>
                     </div>
-                    <div class="input-container">
-                        <input type="email" id="ue" name="userEmail" autocomplete="off" placeholder=" " value="<?php echo $userEmail?>"/>
-                        <label for="ue" class="label-name">
-                            <span class="content-name">Email address</span>
+                    <div class="error-msg-container">
+                        <span id="errorLN"></span>
+                    </div>
+                    <div id="de" class="input-container">
+                        <input id="ie" type="text" name="userEmail" autocomplete="off" placeholder=" " value="<?php echo $userEmail?>"/>
+                        <label id="le" for="ie" class="label-name">
+                            <span id="se" class="content-name">Email address</span>
                         </label>
                     </div>
-                    <div class="input-container">
-                        <input type="password" id="up1" name="userPass1" autocomplete="off" placeholder=" " value="<?php echo $userPass1?>"/>
-                        <label for="up1" class="label-name">
-                            <span class="content-name">Password</span>
+                    <div class="error-msg-container">
+                        <span id="errorEmail"></span>
+                    </div>
+                    <div id="dp1" class="input-container">
+                        <input id="ip1" type="password" name="userPass1" autocomplete="off" placeholder=" " value="<?php echo $userPass1?>"/>
+                        <label id="lp1" for="ip1" class="label-name">
+                            <span id="sp1" class="content-name">Password</span>
                         </label>
                     </div>
-                    <div class="input-container">
-                        <input type="password" id="up2" name="userPass2" autocomplete="off" placeholder=" " value="<?php echo $userPass2?>"/>
-                        <label for="up2" class="label-name">
-                            <span class="content-name">Confirm Password</span>
+                    <div class="error-msg-container">
+                        <span id="errorPass1"></span>
+                    </div>
+                    <div id="dp2" class="input-container">
+                        <input id="ip2" type="password" name="userPass2" autocomplete="off" placeholder=" " value="<?php echo $userPass2?>"/>
+                        <label id="lp2" for="ip2" class="label-name">
+                            <span id="sp2" class="content-name">Confirm Password</span>
                         </label>
+                    </div>
+                    <div class="error-msg-container">
+                        <span id="errorPass2"></span>
                     </div>
                     
                     <div class="btn-and-bottom-link">

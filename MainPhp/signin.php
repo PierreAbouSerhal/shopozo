@@ -105,6 +105,8 @@
 ?>
     <title>Signin</title>
     <link rel="stylesheet" href="../MainCss/signinRegister.css">
+    <script src="../MainJs/formValidation.js"></script>
+
 </head>
 <body>
     <div class="container">
@@ -119,18 +121,24 @@
 
         <div class="main-container">
             <div class="left">
-                <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]?>">
-                    <div class="input-container">
-                        <input type="email" id="userEmail" name="userEmail" autocomplete="off" placeholder=" " value="<?php echo $userEmail?>"/>
-                        <label for="userEmail" class="label-name">
-                            <span class="content-name">Email address</span>
+                <form id="signinForm" method="POST" action="<?php echo $_SERVER["PHP_SELF"]?>">
+                    <div id="de" class="input-container">
+                        <input id="ie" type="text" name="userEmail" autocomplete="off" placeholder=" " value="<?php echo $userEmail?>"/>
+                        <label id="le" for="ie" class="label-name">
+                            <span id="se" class="content-name">Email address</span>
                         </label>
                     </div>
-                    <div class="input-container">
-                        <input type="password" id="userPass" name="userPass" autocomplete="off" placeholder=" " value="<?php $userPass?>"/>
-                        <label for="userPass" class="label-name">
-                            <span class="content-name">Password</span>
+                    <div class="error-msg-container">
+                        <span id="errorEmail"></span>
+                    </div>
+                    <div id="dp" class="input-container">
+                        <input id="ip" type="password" name="userPass" autocomplete="off" placeholder=" " value="<?php $userPass?>"/>
+                        <label id="lp" for="ip" class="label-name">
+                            <span id="sp" class="content-name">Password</span>
                         </label>
+                    </div>
+                    <div class="error-msg-container">
+                        <span id="errorPass"></span>
                     </div>
                     <a href="forgotPass.php" class="forgot-pass">Forgot password?</a>
                     <div class="remember-me-container">
