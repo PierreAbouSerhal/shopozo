@@ -53,6 +53,11 @@ body {
     color: black;
 }
 
+.header-right-corner a:hover{
+    text-decoration: underline;
+    color: #6EBE47;
+}
+
 .cart-img{
     width: 20px;
     min-width: 20px;

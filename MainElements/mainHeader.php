@@ -1,6 +1,13 @@
 <?php
     //QUERY ALL CATEGORIES
 
+    include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/PhpUtils/checkLoginStatus.php");
+
+    if(!$user["userOk"])
+    {
+        logout();
+    }
+
     include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/MainElements/doctype.html");
 ?>
 
@@ -16,17 +23,36 @@
         <div class="header-container container">
             <div class="header-left-corner">
                 <span class="links">
-                    <!-- WHEN LOGGED IN SHOW USER NAME -->
-                    <span>Hi!</span>
-                    <a href="#">Signin</a>
-                    <span>or</span>
-                    <a href="#">register</a>
-                </span>
+                    <?php
+                        if($user["userOk"])
+                        {
+                            echo '
+                                <span>Hi '.$userName.'!</span>
+                            ';
+                        }
+                        else
+                        {
+                            echo '
+                            <span>Hi!</span>
+                                <a href="../MainPhp/signin.php">Signin</a>
+                                <span>or</span>
+                                <a href="../MainPhp/register.php">register</a>
+                            </span>
+                            ';
+                        }
+                    ?>
             </div>
             <div class="header-right-corner">
-                <a href="#">My Profile</a>
-                <a href="#">Watch List</a>
-                <img class="cart-img" src="../ShopozoPics/shopping-cart.svg" style="margin-left: 10%;">
+                <?php
+                    if($user["userOk"])
+                    {
+                        echo '
+                        <a href="../MainPhp/Profile.php">My Account</a>
+                        <a href="#">Watch List</a>
+                        <img class="cart-img" src="../ShopozoPics/shopping-cart.svg" style="margin-left: 10%;">      
+                        ';
+                    }
+                ?>
             </div>
         </div>
     </div>
@@ -53,10 +79,17 @@
             <img class="mobile-logo-img" src="../ShopozoPics/shopozo-logo.png" alt="shopozo">
         </div>
         <div class="mobile-menu-header">
-            <img class="menu-img" src="../ShopozoPics/user.svg" alt="profile">
+            <?php
+                if($user["userOk"])
+                {
+                    echo '
+                        <img class="menu-img" src="../ShopozoPics/user.svg" alt="profile">
+                        <img class="menu-img" src="../ShopozoPics/watch-list.svg" alt="watch-list">
+                        <img class="menu-img" src="../ShopozoPics/shopping-cart.svg" alt="cart">
+                    ';
+                }
+            ?>
             <img class="menu-img" src="../ShopozoPics/emptyheart.svg" alt="saved">
-            <img class="menu-img" src="../ShopozoPics/watch-list.svg" alt="watch-list">
-            <img class="menu-img" src="../ShopozoPics/shopping-cart.svg" alt="cart">
             <img class="menu-img" src="../ShopozoPics/hamberger.svg" alt="menu" onclick="openNav()">
         </div>
      </div>
@@ -89,33 +122,3 @@
         </span>
         <input class="search-btn" type="submit" value="Search">
     </form>   
-    <div class="nav-bar others">
-        <ul class="nav-var-ul">
-            <li>
-                <a href="#">Home</a>
-            </li>
-            <li>
-                <a href="#">Saved</a>
-            </li>
-            <!-- CATEGORIES NEED TO BE ACCESSEBLE FROM DB -->
-            <li>
-                <a href="#">Saved</a>
-            </li>
-            <li>
-                <a href="#">Saved</a>
-            </li>
-            <li>
-                <a href="#">Saved</a>
-            </li>
-            <li>
-                <a href="#">Saved</a>
-            </li>
-            <li>
-                <a href="#">Saved</a>
-            </li>
-            <li>
-                <a href="#">Saved</a>
-            </li>
-        </ul>
-    </div>  
-
