@@ -212,6 +212,15 @@ body {
     cursor: pointer;
 }
 
+.default-profile-item{
+    color:  #6EBE47;
+    border-bottom: 3px solid #6EBE47;
+    cursor: pointer;
+}
+
+.default-profile-item a{
+    color: #6EBE47;
+}
 
 @media (max-width: 500px){
     .others{

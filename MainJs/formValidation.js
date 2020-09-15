@@ -318,4 +318,140 @@ $(document).ready(function() {
         return valid;
 
     });
+
+    //FORGOT PASS FORM
+    $("#PersonalForm").submit(function() {
+
+        let valid = true;
+
+        let isEmptyFn = ($("#ifn").val() == "") ? true : false;
+        let isEmptyLn = ($("#iln").val() == "") ? true : false;
+        let isValidPh = ($("#iph").val() != "" && $.isNumeric($("#iph").val())) ? true : false;
+        let isValidP1 = ($("#ip1").val() != "") ? true : false;
+        let isValidP2 = ($("#ip2").val() != "" && $("#ip2").val().length > 4) ? true : false;
+
+        if(isEmptyFn)
+        {
+            $("#lfn").css("color", error);
+            $("#sfn").css("color", error);
+
+            $("#lfn").css("border-bottom", "1px solid " + error);
+            $("#lfn").css("--bottomBorder", "3px solid " + error);
+
+            $("#errorFN").html("First name is empty");
+        }
+        else
+        {
+            $("#lfn").css("color", success);
+            $("#sfn").css("color", success);
+
+            $("#lfn").css("border-bottom", "1px solid " + normal);
+            $("#lfn").css("--bottomBorder", "3px solid " + success);
+
+            $("#errorFN").html("");
+        }
+
+        if(isEmptyLn)
+        {
+            $("#lln").css("color", error);
+            $("#sln").css("color", error);
+
+            $("#lln").css("border-bottom", "1px solid " + error);
+            $("#lln").css("--bottomBorder", "3px solid " + error);
+
+            $("#errorLN").html("Last name is empty");
+        }
+        else
+        {
+            $("#lln").css("color", success);
+            $("#sln").css("color", success);
+
+            $("#lln").css("border-bottom", "1px solid " + normal);
+            $("#lln").css("--bottomBorder", "3px solid " + success);
+
+            $("#errorLN").html("");
+        }
+
+        if(!isValidPh)
+        {
+            $("#lph").css("color", error);
+            $("#sph").css("color", error);
+
+            $("#lph").css("border-bottom", "1px solid " + error);
+            $("#lph").css("--bottomBorder", "3px solid " + error);
+
+            $("#errorPhone").html("Invalid phone number");
+        }
+        else
+        {
+            $("#lph").css("color", success);
+            $("#sph").css("color", success);
+
+            $("#lph").css("border-bottom", "1px solid " + normal);
+            $("#lph").css("--bottomBorder", "3px solid " + success);
+
+            $("#errorPhone").html("");
+        }
+
+        if($("#ip2").val() != "")
+        {
+            if(!isValidP2)
+            {
+                $("#lp2").css("color", error);
+                $("#sp2").css("color", error);
+
+                $("#lp2").css("border-bottom", "1px solid " + error);
+                $("#lp2").css("--bottomBorder", "3px solid " + error);
+
+                $("#errorPass2").html("Password must be at least 5 characters long");
+            }
+            else
+            {
+                $("#lp2").css("color", success);
+                $("#sp2").css("color", success);
+
+                $("#lp2").css("border-bottom", "1px solid " + normal);
+                $("#lp2").css("--bottomBorder", "3px solid " + success);
+
+                $("#errorPass2").html("");
+            }
+
+            if(!isValidP1)
+            {
+                $("#lp1").css("color", error);
+                $("#sp1").css("color", error);
+
+                $("#lp1").css("border-bottom", "1px solid " + error);
+                $("#lp1").css("--bottomBorder", "3px solid " + error);
+
+                $("#errorPass1").html("Old password is empty");
+            }
+            else
+            {
+                $("#lp1").css("color", success);
+                $("#sp1").css("color", success);
+
+                $("#lp1").css("border-bottom", "1px solid " + normal);
+                $("#lp1").css("--bottomBorder", "3px solid " + success);
+
+                $("#errorPass1").html("");
+            }
+        }
+
+        if(isEmptyFn || isEmptyLn || !isValidPh)
+        {
+            valid = false
+        }
+
+        if($("#ip2").val() != "")
+        {
+            if(!isValidP2 || !isValidP1)
+            {
+                valid = false;
+            }
+        }
+
+        return valid;
+
+    });
 });

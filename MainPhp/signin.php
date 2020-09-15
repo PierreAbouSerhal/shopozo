@@ -75,6 +75,7 @@
                     $_SESSION["userLname"] = $res["last"];
                     $_SESSION["userName"]  = $res["first"].' '.$res["last"];
                     $_SESSION["userEmail"] = $res["email"];
+                    $_SESSION["userPhone"] = $res["phone"];
                     $_SESSION["isAdmin"]   = ($res["role"] == "ADMIN") ? true : false ;
                     $_SESSION["userToken"] = $token;
 
@@ -105,6 +106,8 @@
 ?>
     <title>Signin</title>
     <link rel="stylesheet" href="../MainCss/signinRegister.css">
+    <link rel="stylesheet" href="../MainCss/inputFields.css">
+
     <script src="../MainJs/formValidation.js"></script>
 
 </head>

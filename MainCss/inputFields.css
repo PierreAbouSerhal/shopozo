@@ -1,0 +1,81 @@
+.input-container{
+    position: relative;
+    height: 50px;
+    overflow: hidden;
+}
+
+.input-container input{
+    width: 100%;
+    height: 100%;
+    padding-top: 20px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+.input-container label{
+    --bottomBorder:  3px solid #6EBE47;
+    position: absolute;
+    bottom: 0px;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    color: #9E9E9E;
+    border-bottom: 1px solid #9E9E9E;
+}
+
+.input-container label::after{
+    content: "";
+    position: absolute;
+    left: 0px;
+    bottom: -1px;
+    height: 100%;
+    width: 100%;
+    border-bottom: var(--bottomBorder);
+    transform: translate(-100%);
+    transition: transform 0.3s ease;
+}
+
+.content-name{
+    position: absolute;
+    bottom: 5px;
+    left: 0px;
+    transition: all 0.3s ease;
+}
+
+.input-container input:focus + .label-name .content-name,
+.input-container input:not(:placeholder-shown) + .label-name .content-name{
+    transform: translateY(-150%);
+    font-size: 0.8rem;
+    color: #6EBE47;
+}
+
+.input-container input:focus + .label-name::after,
+.input-container input:not(:placeholder-shown) + .label-name::after{
+    transform: translateX(0%);
+}
+
+.error-msg-container{
+    height: 20px;
+    text-align: right;
+    font-size: 0.8rem;
+    padding-top: 3px;
+    color: #ff0a0a;
+}
+
+.button {
+    background-color: #118706;
+    border: none;
+    color: white;
+    padding: 15px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 10px; 
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin: 4px 2px;
+    cursor: pointer;
+}

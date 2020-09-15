@@ -4,7 +4,7 @@ session_start();
 include_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/PhpUtils/dbConx.php");
 
 $user      = array("userId" => "", "userOk" => false);
-$userEmail = $userFname = $userLname = $userName  = "";
+$userEmail = $userFname = $userLname = $userName  = $userPhone = "";
 $isAdmin   = false;
 
 //USER VERIFICATION FUNCTION
@@ -65,6 +65,7 @@ if(isset($_SESSION["userToken"]) && isset($_SESSION["loggedin"]))
         $userFname = $_SESSION["userFname"];
         $userLname = $_SESSION["userLname"];
         $userName  = $_SESSION["userName"];
+        $userPhone = $_SESSION["userPhone"];
         $isAdmin   = $_SESSION["isAdmin"];
         $user      = evalLoggedUser($dbConx, $hashedToken, $user);
     }
@@ -91,6 +92,7 @@ else if(isset($_COOKIE["userToken"]))
             $_SESSION["userFname"] = $resCheck["first"];
             $_SESSION["userLname"] = $resCheck["last"];
             $_SESSION["userName"]  = $resCheck["first"].' '.$resCheck["last"];
+            $_SESSION["userPhone"] = $resCheck["phone"];
             $_SESSION["userToken"] = $_COOKIE["userToken"];
             $_SESSION["isAdmin"]   = ($resCheck["role"] == "ADMIN") ? true : false;
 
@@ -98,6 +100,7 @@ else if(isset($_COOKIE["userToken"]))
             $userFname = $_SESSION["userFname"];
             $userLname = $_SESSION["userLname"];
             $userName  = $_SESSION["userName"];
+            $userPhone = $_SESSION["userPhone"];
             $isAdmin   = $_SESSION["isAdmin"];
 
         }

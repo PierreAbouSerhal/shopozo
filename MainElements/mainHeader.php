@@ -13,7 +13,11 @@
 
     <link rel="stylesheet" href="../MainCss/mainHeader.css">
     <link rel="stylesheet" href="../MainCss/sideNav.css">
+    <link rel="stylesheet" href="../MainCss/profile.css">
+    <link rel="stylesheet" href="../MainCss/inputFields.css">
+    
     <script src="../MainJs/sideNav.js"></script>
+    <script src="../MainJs/formValidation.js"></script>
 
     <title><?php echo $title?></title>
 </head>
@@ -41,6 +45,7 @@
                             ';
                         }
                     ?>
+                </span>
             </div>
             <div class="header-right-corner">
                 <?php

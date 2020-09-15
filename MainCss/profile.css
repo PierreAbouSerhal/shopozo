@@ -1,0 +1,45 @@
+.profile-nav{
+    margin-top: 30px;
+    display: flex;
+    list-style-type: none;
+}
+
+.profile-nav-item-container{
+    padding-bottom: 10px;
+    width: 25%;
+    text-align: center;
+}
+
+.profile-nav-item{
+    color: black;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.profile-nav-item-container:hover{
+    color:  #6EBE47;
+    border-bottom: 3px solid #6EBE47;
+    cursor: pointer;
+}
+
+.profile-nav-item-container:hover .profile-nav-item{
+    color: #6EBE47;
+}
+
+.profile-title{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.pesonal-info-container{
+    width: 50%;
+}
+
+@media (max-width: 500px){
+    .profile-nav-item-container{
+        width: 50%;
+    }
+    .pesonal-info-container{
+        width: 100%;
+    }
+}

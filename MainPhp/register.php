@@ -126,6 +126,8 @@
 ?>
 <title>Register</title>
 <link rel="stylesheet" href="../MainCss/signinRegister.css">
+<link rel="stylesheet" href="../MainCss/inputFields.css">
+
 <script src="../MainJs/formValidation.js"></script>
 </head>
     <body>
