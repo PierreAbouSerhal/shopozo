@@ -1,0 +1,45 @@
+.intrested-container{
+    display: flex;
+    flex-direction: row;
+    height: 200px;
+    background-color: #9ef277;
+    padding-left: 30px;
+    margin-top: 20px;
+}
+
+.intrested-title{
+    font-size: 1.8rem;
+    font-style: bold;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.intrested-right-arrow{
+    width: 16px;
+}
+
+.shop-now-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #118706;
+    cursor: pointer;
+    padding: 5px 5px 5px 5px;
+    width: 150px;
+}
+
+.shop-now-btn:hover{
+    background-color: #118706;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.shop-now-btn:hover .intrested-right-arrow{
+    filter: brightness(0) invert(1);
+    transition: all 0.2s ease;
+}
+
+.shop-now-text{
+    margin-right: 5%;
+}
+

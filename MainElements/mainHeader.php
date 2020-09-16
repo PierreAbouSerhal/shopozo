@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="../MainCss/sideNav.css">
     <link rel="stylesheet" href="../MainCss/profile.css">
     <link rel="stylesheet" href="../MainCss/inputFields.css">
-    
+    <link rel="stylesheet" href="../MainCss/index.css">
+
     <script src="../MainJs/sideNav.js"></script>
     <script src="../MainJs/formValidation.js"></script>
 

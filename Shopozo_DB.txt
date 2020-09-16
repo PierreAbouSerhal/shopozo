@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 01, 2020 at 10:35 PM
+-- Generation Time: Sep 16, 2020 at 09:30 PM
 -- Server version: 5.7.17
 -- PHP Version: 7.1.3
 
@@ -21,22 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `shopozo`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `addresses`
---
-
-CREATE TABLE `addresses` (
-  `id` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `countryId` int(11) NOT NULL,
-  `province` varchar(50) NOT NULL,
-  `city` int(50) NOT NULL,
-  `street` varchar(100) NOT NULL,
-  `postCode` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -59,17 +43,6 @@ CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `name` int(11) NOT NULL,
   `popularityPts` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `conditions`
---
-
-CREATE TABLE `conditions` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -336,6 +309,17 @@ INSERT INTO `countrys` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`, `pho
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `history`
+--
+
+CREATE TABLE `history` (
+  `userId` int(11) NOT NULL,
+  `productId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `orders`
 --
 
@@ -380,19 +364,29 @@ CREATE TABLE `payments` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `productpics`
+--
+
+CREATE TABLE `productpics` (
+  `productId` int(11) NOT NULL,
+  `picture` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `products`
 --
 
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
-  `categoryId` int(11) NOT NULL,
+  `subCategId` int(11) NOT NULL,
   `brandId` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `price` decimal(18,4) NOT NULL,
   `stock` int(11) NOT NULL DEFAULT '0',
   `descr` text NOT NULL,
-  `pics` varchar(255) NOT NULL,
-  `conditionId` int(11) NOT NULL,
+  `prodCond` varchar(255) NOT NULL,
   `totalViews` int(11) NOT NULL DEFAULT '0',
   `totalSold` int(11) NOT NULL DEFAULT '0',
   `totalWatchers` int(11) NOT NULL DEFAULT '0'
@@ -459,6 +453,29 @@ CREATE TABLE `specs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `subcategories`
+--
+
+CREATE TABLE `subcategories` (
+  `id` int(11) NOT NULL,
+  `categoryId` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subcategspecs`
+--
+
+CREATE TABLE `subcategspecs` (
+  `subCategId` int(11) NOT NULL,
+  `specId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -469,6 +486,11 @@ CREATE TABLE `users` (
   `last` varchar(50) NOT NULL,
   `email` varchar(255) NOT NULL,
   `phone` varchar(50) DEFAULT NULL,
+  `countryId` int(11) NOT NULL,
+  `province` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `street` varchar(255) NOT NULL,
+  `postalCode` varchar(50) NOT NULL,
   `passHash` varchar(255) NOT NULL,
   `activationCode` varchar(255) NOT NULL,
   `activated` tinyint(1) DEFAULT '0',
@@ -479,8 +501,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `role`, `first`, `last`, `email`, `phone`, `passHash`, `activationCode`, `activated`, `creationDate`) VALUES
-(1, 'CLIENT', 'Pierre', 'Abou Serhal', 'pieroas123321@gmail.com', NULL, '$2y$10$TmlO.8x449BAysDCWkfoUOpKDIvz3T1/0V9PhljnDs4UwOKKOJp8i', '$2y$10$JLrzSAMZam8gsIPOeoIfD.cEXL8JWrb7TRpPKtvCztNru1yQb41re', 1, '2020-08-27');
+INSERT INTO `users` (`id`, `role`, `first`, `last`, `email`, `phone`, `countryId`, `province`, `city`, `street`, `postalCode`, `passHash`, `activationCode`, `activated`, `creationDate`) VALUES
+(1, 'CLIENT', 'Pierre', 'Abou Serhal', 'pieroas123321@gmail.com', '76331288', 118, '', '', '', '', '$2y$10$ljIugeAK/Kxe8TIfFT6OzOLlAr0EJbSZ1CGR256pNxnWItisyMvRG', '$2y$10$JLrzSAMZam8gsIPOeoIfD.cEXL8JWrb7TRpPKtvCztNru1yQb41re', 1, '2020-08-27');
 
 -- --------------------------------------------------------
 
@@ -500,7 +522,7 @@ CREATE TABLE `usertokens` (
 --
 
 INSERT INTO `usertokens` (`userId`, `hashedToken`, `creationDate`, `creationTime`) VALUES
-(1, '732f5b8cdfbbd789a42c7e267cfd697a51b5dce88d63373f71b9323aa6d9aba1', '2020-08-31', '15:07:58');
+(1, '32453776dc8d23b98a3f430807c8a88b59f4fa1222b526fdb96bb2b9351fbc26', '2020-09-15', '21:34:24');
 
 -- --------------------------------------------------------
 
@@ -518,14 +540,6 @@ CREATE TABLE `watchlists` (
 --
 
 --
--- Indexes for table `addresses`
---
-ALTER TABLE `addresses`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `userId` (`userId`),
-  ADD KEY `countryId` (`countryId`);
-
---
 -- Indexes for table `brands`
 --
 ALTER TABLE `brands`
@@ -538,16 +552,17 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `conditions`
---
-ALTER TABLE `conditions`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `countrys`
 --
 ALTER TABLE `countrys`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `history`
+--
+ALTER TABLE `history`
+  ADD KEY `productId` (`productId`),
+  ADD KEY `userId` (`userId`);
 
 --
 -- Indexes for table `orders`
@@ -571,13 +586,18 @@ ALTER TABLE `payments`
   ADD KEY `orderId` (`orderId`);
 
 --
+-- Indexes for table `productpics`
+--
+ALTER TABLE `productpics`
+  ADD KEY `productId` (`productId`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `categoryId` (`categoryId`),
   ADD KEY `brandId` (`brandId`),
-  ADD KEY `conditionId` (`conditionId`);
+  ADD KEY `products_ibfk_2` (`subCategId`);
 
 --
 -- Indexes for table `productspecs`
@@ -615,11 +635,26 @@ ALTER TABLE `specs`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `subcategories`
+--
+ALTER TABLE `subcategories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `categoryId` (`categoryId`);
+
+--
+-- Indexes for table `subcategspecs`
+--
+ALTER TABLE `subcategspecs`
+  ADD KEY `specId` (`specId`),
+  ADD KEY `subCategId` (`subCategId`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `countryId` (`countryId`);
 
 --
 -- Indexes for table `usertokens`
@@ -639,11 +674,6 @@ ALTER TABLE `watchlists`
 --
 
 --
--- AUTO_INCREMENT for table `addresses`
---
-ALTER TABLE `addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
@@ -652,11 +682,6 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `conditions`
---
-ALTER TABLE `conditions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `countrys`
@@ -692,17 +717,17 @@ ALTER TABLE `specs`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `addresses`
+-- Constraints for table `history`
 --
-ALTER TABLE `addresses`
-  ADD CONSTRAINT `addresses_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `addresses_ibfk_2` FOREIGN KEY (`countryId`) REFERENCES `countrys` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `history`
+  ADD CONSTRAINT `history_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `history_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `orders`
@@ -724,12 +749,17 @@ ALTER TABLE `payments`
   ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `productpics`
+--
+ALTER TABLE `productpics`
+  ADD CONSTRAINT `productpics_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`brandId`) REFERENCES `brands` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `products_ibfk_4` FOREIGN KEY (`conditionId`) REFERENCES `conditions` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`subCategId`) REFERENCES `subcategories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`brandId`) REFERENCES `brands` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `productspecs`
@@ -758,6 +788,25 @@ ALTER TABLE `savedproducts`
 ALTER TABLE `shoppingcarts`
   ADD CONSTRAINT `shoppingcarts_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `shoppingcarts_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `subcategories`
+--
+ALTER TABLE `subcategories`
+  ADD CONSTRAINT `subcategories_ibfk_1` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `subcategspecs`
+--
+ALTER TABLE `subcategspecs`
+  ADD CONSTRAINT `subcategspecs_ibfk_1` FOREIGN KEY (`specId`) REFERENCES `specs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `subcategspecs_ibfk_2` FOREIGN KEY (`subCategId`) REFERENCES `subcategories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`countryId`) REFERENCES `countrys` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `usertokens`
