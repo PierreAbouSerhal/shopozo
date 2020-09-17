@@ -34,7 +34,13 @@
         //FORM DATA ERROR HANDLING
         if(!empty($userEmail) && !empty($userPass) && strpos($userEmail, '@') !== false)
         {
-            $sql   = "SELECT *, COUNT(*) AS rowNbr FROM users WHERE email = '".$userEmail."';";
+            $sql   = "SELECT users.*, 
+                             countrys.id AS countryId, 
+                             COUNT(*) AS rowNbr 
+                      FROM users
+                      LEFT JOIN countrys
+                      ON users.countryId = countrys.id 
+                      WHERE users.email = '".$userEmail."';";
 
             $query = mysqli_query($dbConx, $sql);
 
@@ -70,14 +76,19 @@
                 if($queryInsert)
                 {
                     //CREATE THE SESSIONS 
-                    $_SESSION["loggedin"]  = true;
-                    $_SESSION["userFname"] = $res["first"];
-                    $_SESSION["userLname"] = $res["last"];
-                    $_SESSION["userName"]  = $res["first"].' '.$res["last"];
-                    $_SESSION["userEmail"] = $res["email"];
-                    $_SESSION["userPhone"] = $res["phone"];
-                    $_SESSION["isAdmin"]   = ($res["role"] == "ADMIN") ? true : false ;
-                    $_SESSION["userToken"] = $token;
+                    $_SESSION["loggedin"]     = true;
+                    $_SESSION["userFname"]    = $res["first"];
+                    $_SESSION["userLname"]    = $res["last"];
+                    $_SESSION["userName"]     = $res["first"].' '.$res["last"];
+                    $_SESSION["userEmail"]    = $res["email"];
+                    $_SESSION["userPhone"]    = $res["phone"];
+                    $_SESSION["userCountry"]  = $res["countryId"];
+                    $_SESSION["userStreet"]   = $res["street"];
+                    $_SESSION["userCity"]     = $res["city"];
+                    $_SESSION["userProvince"] = $res["province"];
+                    $_SESSION["userPostCode"] = $res["postalCode"];
+                    $_SESSION["isAdmin"]      = ($res["role"] == "ADMIN") ? true : false ;
+                    $_SESSION["userToken"]    = $token;
 
                     if($rmbrMe)
                     {

@@ -4,7 +4,7 @@ session_start();
 include_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/PhpUtils/dbConx.php");
 
 $user      = array("userId" => "", "userOk" => false);
-$userEmail = $userFname = $userLname = $userName  = $userPhone = "";
+$userEmail = $userFname = $userLname = $userName  = $userPhone = $userCountry = $userStreet = $userCity = $userProvince = $userPostCode = "";
 $isAdmin   = false;
 
 //USER VERIFICATION FUNCTION
@@ -55,19 +55,38 @@ function refreshName($dbConx, $user)
     }
 }
 
+function emailIsValid($email)
+{
+    $mailformat = "/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/";
+
+    if (preg_match($mailformat, $email)) 
+    {
+        return true;
+    }
+    else 
+    {
+        return false;
+    }
+}
+
 if(isset($_SESSION["userToken"]) && isset($_SESSION["loggedin"]))
 {
     if($_SESSION["loggedin"])
     {
         $hashedToken = hash("sha256", $_SESSION["userToken"]);
 
-        $userEmail = $_SESSION["userEmail"];
-        $userFname = $_SESSION["userFname"];
-        $userLname = $_SESSION["userLname"];
-        $userName  = $_SESSION["userName"];
-        $userPhone = $_SESSION["userPhone"];
-        $isAdmin   = $_SESSION["isAdmin"];
-        $user      = evalLoggedUser($dbConx, $hashedToken, $user);
+        $userEmail    = $_SESSION["userEmail"];
+        $userFname    = $_SESSION["userFname"];
+        $userLname    = $_SESSION["userLname"];
+        $userName     = $_SESSION["userName"];
+        $userPhone    = $_SESSION["userPhone"];
+        $userCountry  = $_SESSION["userCountry"];
+        $userStreet   = $_SESSION["userStreet"];
+        $userCity     = $_SESSION["userCity"];
+        $userProvince = $_SESSION["userProvince"];
+        $userPostCode = $_SESSION["userPostCode"];
+        $isAdmin      = $_SESSION["isAdmin"];
+        $user         = evalLoggedUser($dbConx, $hashedToken, $user);
     }
 }
 else if(isset($_COOKIE["userToken"]))
@@ -81,27 +100,37 @@ else if(isset($_COOKIE["userToken"]))
         $userId = $user["userId"];
 
         //REINITIATE SESSION VARIABLES
-        $sqlCheck = "SELECT *, COUNT(*) AS rowNbr, role FROM users WHERE id = ".$userId.";";
+        $sqlCheck = "SELECT *, COUNT(*) AS rowNbr FROM users WHERE id = ".$userId.";";
         $queryCheck = mysqli_query($dbConx, $sqlCheck);
         $resCheck = mysqli_fetch_assoc($queryCheck);
 
         if($resCheck["rowNbr"] == 1)
         {
-            $_SESSION["loggedin"]  = true;
-            $_SESSION["userEmail"] = $resCheck["email"];
-            $_SESSION["userFname"] = $resCheck["first"];
-            $_SESSION["userLname"] = $resCheck["last"];
-            $_SESSION["userName"]  = $resCheck["first"].' '.$resCheck["last"];
-            $_SESSION["userPhone"] = $resCheck["phone"];
-            $_SESSION["userToken"] = $_COOKIE["userToken"];
-            $_SESSION["isAdmin"]   = ($resCheck["role"] == "ADMIN") ? true : false;
+            $_SESSION["loggedin"]     = true;
+            $_SESSION["userEmail"]    = $resCheck["email"];
+            $_SESSION["userFname"]    = $resCheck["first"];
+            $_SESSION["userLname"]    = $resCheck["last"];
+            $_SESSION["userName"]     = $resCheck["first"].' '.$resCheck["last"];
+            $_SESSION["userPhone"]    = $resCheck["phone"];
+            $_SESSION["userCountry"]  = $resCheck["countryId"];
+            $_SESSION["userStreet"]   = $resCheck["street"];
+            $_SESSION["userCity"]     = $resCheck["city"];
+            $_SESSION["userProvince"] = $resCheck["province"];
+            $_SESSION["userPostCode"] = $resCheck["postalCode"];
+            $_SESSION["userToken"]    = $_COOKIE["userToken"];
+            $_SESSION["isAdmin"]      = ($resCheck["role"] == "ADMIN") ? true : false;
 
-            $userEmail = $resCheck["email"];
-            $userFname = $_SESSION["userFname"];
-            $userLname = $_SESSION["userLname"];
-            $userName  = $_SESSION["userName"];
-            $userPhone = $_SESSION["userPhone"];
-            $isAdmin   = $_SESSION["isAdmin"];
+            $userEmail    = $_SESSION["userEmail"];
+            $userFname    = $_SESSION["userFname"];
+            $userLname    = $_SESSION["userLname"];
+            $userName     = $_SESSION["userName"];
+            $userPhone    = $_SESSION["userPhone"];
+            $userCountry  = $_SESSION["userCountry"];
+            $userStreet   = $_SESSION["userStreet"];
+            $userCity     = $_SESSION["userCity"];
+            $userProvince = $_SESSION["userProvince"];
+            $userPostCode = $_SESSION["userPostCode"];
+            $isAdmin      = $_SESSION["isAdmin"];
 
         }
     }

@@ -14,6 +14,22 @@
         return $activCode;
     }
 
+
+    function emailIsValid($email)
+    {
+        $mailformat = "/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/";
+
+        if (preg_match($mailformat, $email)) 
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+    
+
     if(isset($_GET["activated"]) && $_GET["activated"] == 0)
     {
         $msg = "Failed to activate Account, please try again later";
@@ -33,7 +49,7 @@
 
         if(!empty($userFname) && !empty($userLname) && !empty($userEmail) && !empty($userPass1) && !empty($userPass2))
         {
-            if(strpos($userEmail, '@') !== false && strlen($userPass1) > 4 && $userPass1 == $userPass2)
+            if(emailIsValid($userEmail) && strlen($userPass1) > 4 && $userPass1 == $userPass2)
             {
                 //UNIQUE ACCOUNT VERIFICATION
                 $sqlVerif = "SELECT COUNT(*) AS rowNbr, activated, email FROM users WHERE email = '".$userEmail."' ;";

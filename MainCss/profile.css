@@ -31,15 +31,51 @@
     margin-bottom: 20px;
 }
 
-.pesonal-info-container{
+.personal-info-input-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.pesonal-info-left-container{
     width: 50%;
+    padding-right: 5%;
+}
+
+.pesonal-info-right-container{
+    width: 50%;
+    padding-right: 5%;
+}
+
+.left-right-padding{
+    padding: 0 7% 0 7%;
+}
+
+.change-pass-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    height: 50px;
+    margin: 0 7% 10px 7%;
+    font-size: 0.9rem;
+    border-radius: 5px;
 }
 
 @media (max-width: 500px){
+    .personal-info-input-container{
+        flex-direction: column;        
+    }
+
     .profile-nav-item-container{
         width: 50%;
     }
-    .pesonal-info-container{
+    .pesonal-info-left-container{
         width: 100%;
+        padding: 0;
+    }
+    .pesonal-info-right-container{
+        width: 100%;
+        padding: 0;
     }
 }

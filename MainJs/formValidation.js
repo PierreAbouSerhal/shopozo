@@ -319,16 +319,20 @@ $(document).ready(function() {
 
     });
 
-    //FORGOT PASS FORM
+    //PERSONAL INFO FORM
     $("#PersonalForm").submit(function() {
 
         let valid = true;
 
-        let isEmptyFn = ($("#ifn").val() == "") ? true : false;
-        let isEmptyLn = ($("#iln").val() == "") ? true : false;
-        let isValidPh = ($("#iph").val() != "" && $.isNumeric($("#iph").val())) ? true : false;
-        let isValidP1 = ($("#ip1").val() != "") ? true : false;
-        let isValidP2 = ($("#ip2").val() != "" && $("#ip2").val().length > 4) ? true : false;
+        let isEmptyFn  = ($("#ifn").val() == "") ? true : false;
+        let isEmptyLn  = ($("#iln").val() == "") ? true : false;
+        let isValidPh  = ($("#iph").val() != "" && $.isNumeric($("#iph").val())) ? true : false;
+        let isValidE   = ($("#ie").val() != "" && emailIsValid($("#ie").val())) ? true : false;
+        let isEmptyCou = (!$('#icou').val()) ? true : false;
+        let isEmptyStr = ($("#istr").val() == "") ? true : false;
+        let isEmptyCty = ($("#icty").val() == "") ? true : false;
+        let isEmptyPrv = ($("#iprv").val() == "") ? true : false;
+        let isEmptyZip = ($("#izip").val() == "") ? true : false;
 
         if(isEmptyFn)
         {
@@ -393,65 +397,198 @@ $(document).ready(function() {
             $("#errorPhone").html("");
         }
 
-        if($("#ip2").val() != "")
+        if(!isValidE)
         {
-            if(!isValidP2)
-            {
-                $("#lp2").css("color", error);
-                $("#sp2").css("color", error);
+            $("#le").css("color", error);
+            $("#se").css("color", error);
 
-                $("#lp2").css("border-bottom", "1px solid " + error);
-                $("#lp2").css("--bottomBorder", "3px solid " + error);
+            $("#le").css("border-bottom", "1px solid " + error);
+            $("#le").css("--bottomBorder", "3px solid " + error);
 
-                $("#errorPass2").html("Password must be at least 5 characters long");
-            }
-            else
-            {
-                $("#lp2").css("color", success);
-                $("#sp2").css("color", success);
+            $("#errorEmail").html("Invalid email address");
+        }
+        else
+        {
+            $("#le").css("color", success);
+            $("#se").css("color", success);
 
-                $("#lp2").css("border-bottom", "1px solid " + normal);
-                $("#lp2").css("--bottomBorder", "3px solid " + success);
+            $("#le").css("border-bottom", "1px solid " + normal);
+            $("#le").css("--bottomBorder", "3px solid " + success);
 
-                $("#errorPass2").html("");
-            }
-
-            if(!isValidP1)
-            {
-                $("#lp1").css("color", error);
-                $("#sp1").css("color", error);
-
-                $("#lp1").css("border-bottom", "1px solid " + error);
-                $("#lp1").css("--bottomBorder", "3px solid " + error);
-
-                $("#errorPass1").html("Old password is empty");
-            }
-            else
-            {
-                $("#lp1").css("color", success);
-                $("#sp1").css("color", success);
-
-                $("#lp1").css("border-bottom", "1px solid " + normal);
-                $("#lp1").css("--bottomBorder", "3px solid " + success);
-
-                $("#errorPass1").html("");
-            }
+            $("#errorEmail").html("");
+        
         }
 
-        if(isEmptyFn || isEmptyLn || !isValidPh)
+        if(isEmptyCou)
+        {
+            $("#lcou").css("color", error);
+            $("#scou").css("color", error);
+
+            $("#lcou").css("border-bottom", "1px solid " + error);
+            $("#lcou").css("--bottomBorder", "3px solid " + error);
+
+            $("#errorCountry").html("Country field is empty");
+        }
+        else
+        {
+            $("#lcou").css("color", success);
+            $("#scou").css("color", success);
+
+            $("#lcou").css("border-bottom", "1px solid " + normal);
+            $("#lcou").css("--bottomBorder", "3px solid " + success);
+
+            $("#errorCountry").html("");
+        }
+
+        if(isEmptyStr)
+        {
+            $("#lstr").css("color", error);
+            $("#sstr").css("color", error);
+
+            $("#lstr").css("border-bottom", "1px solid " + error);
+            $("#lstr").css("--bottomBorder", "3px solid " + error);
+
+            $("#errorStreet").html("Street field is empty");
+        }
+        else
+        {
+            $("#lstr").css("color", success);
+            $("#sstr").css("color", success);
+
+            $("#lstr").css("border-bottom", "1px solid " + normal);
+            $("#lstr").css("--bottomBorder", "3px solid " + success);
+
+            $("#errorStreet").html("");
+        }
+
+        if(isEmptyCty)
+        {
+            $("#lcty").css("color", error);
+            $("#scty").css("color", error);
+
+            $("#lcty").css("border-bottom", "1px solid " + error);
+            $("#lcty").css("--bottomBorder", "3px solid " + error);
+
+            $("#errorCity").html("City field is empty");
+        }
+        else
+        {
+            $("#lcty").css("color", success);
+            $("#scty").css("color", success);
+
+            $("#lcty").css("border-bottom", "1px solid " + normal);
+            $("#lcty").css("--bottomBorder", "3px solid " + success);
+
+            $("#errorCity").html("");
+        }
+
+        if(isEmptyPrv)
+        {
+            $("#lprv").css("color", error);
+            $("#sprv").css("color", error);
+
+            $("#lprv").css("border-bottom", "1px solid " + error);
+            $("#lprv").css("--bottomBorder", "3px solid " + error);
+
+            $("#errorProvince").html("State/Province field is empty");
+        }
+        else
+        {
+            $("#lprv").css("color", success);
+            $("#sprv").css("color", success);
+
+            $("#lprv").css("border-bottom", "1px solid " + normal);
+            $("#lprv").css("--bottomBorder", "3px solid " + success);
+
+            $("#errorProvince").html("");
+        }
+
+        if(isEmptyZip)
+        {
+            $("#lzip").css("color", error);
+            $("#szip").css("color", error);
+
+            $("#lzip").css("border-bottom", "1px solid " + error);
+            $("#lzip").css("--bottomBorder", "3px solid " + error);
+
+            $("#errorZipCode").html("Zip code field is empty");
+        }
+        else
+        {
+            $("#lzip").css("color", success);
+            $("#szip").css("color", success);
+
+            $("#lzip").css("border-bottom", "1px solid " + normal);
+            $("#lzip").css("--bottomBorder", "3px solid " + success);
+
+            $("#errorZipCode").html("");
+        }
+
+
+        if(isEmptyFn || isEmptyLn || isEmptyCou || isEmptyStr || isEmptyCty || isEmptyPrv || isEmptyZip || !isValidPh || !isValidE )
         {
             valid = false
         }
 
-        if($("#ip2").val() != "")
+        return valid;
+
+    });
+
+
+    $("#changePassForm").submit(function() {
+        let valid = true;
+        
+        let isEmptyP1  = ($("#ipold").val()  == "") ? true : false;
+        let isValidP2  = ($("#ipnew").val()  != "" &&  $("#ipnew").val().length > 4) ? true : false;
+
+        if(isEmptyP1)
         {
-            if(!isValidP2 || !isValidP1)
-            {
-                valid = false;
-            }
+            $("#lpold").css("color", error);
+            $("#spold").css("color", error);
+
+            $("#lpold").css("border-bottom", "1px solid " + error);
+            $("#lpold").css("--bottomBorder", "3px solid " + error);
+
+            $("#errorOldPass").html("Old password is empty");
+        }
+        else
+        {
+            $("#lpold").css("color", success);
+            $("#spold").css("color", success);
+
+            $("#lpold").css("border-bottom", "1px solid " + normal);
+            $("#lpold").css("--bottomBorder", "3px solid " + success);
+
+            $("#errorOldPass").html("");
+        }
+
+        if(!isValidP2)
+        {
+            $("#lpnew").css("color", error);
+            $("#spnew").css("color", error);
+
+            $("#lpnew").css("border-bottom", "1px solid " + error);
+            $("#lpnew").css("--bottomBorder", "3px solid " + error);
+
+            $("#errorNewPass").html("Password must be at least 5 characters long");
+        }
+        else
+        {
+            $("#lpnew").css("color", success);
+            $("#spnew").css("color", success);
+
+            $("#lpnew").css("border-bottom", "1px solid " + normal);
+            $("#lpnew").css("--bottomBorder", "3px solid " + success);
+
+            $("#errorNewPass").html("");
+        
+        }
+
+        if(isEmptyP1 || !isValidP2)
+        {
+            valid = false;
         }
 
         return valid;
-
     });
 });

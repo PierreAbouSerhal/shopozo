@@ -79,3 +79,42 @@
     margin: 4px 2px;
     cursor: pointer;
 }
+
+.select-container{
+    position: relative;
+    height: 50px;
+}
+
+.select-selected{
+    border-bottom: solid 3px #6EBE47;
+}
+
+.select-default{
+    border-bottom: solid 1px #9E9E9E;
+}
+
+.select-label{
+    font-size: 0.8rem;
+    color: #6EBE47;
+}
+
+.select-wrapper select{
+    border-style: none;
+    -o-appearance: none;
+   -ms-appearance: none;
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+   position: absolute;
+   left: 0;
+   bottom: 4px;
+   width: 100%;
+   cursor: pointer;
+}
+
+.select-wrapper img{
+    position: absolute;
+    right: 8px;
+    bottom: 4px;
+    width: 12px;
+}

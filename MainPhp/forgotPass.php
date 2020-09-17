@@ -12,6 +12,20 @@
     require_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/PhpUtils/mailSetup.php");
     require_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/PhpUtils/dbConx.php");
 
+    function emailIsValid($email)
+    {
+        $mailformat = "/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/";
+
+        if (preg_match($mailformat, $email)) 
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
     $userEmail = $userPin = $userNewPass = $userVerif = "";
 
     if(isset($_POST["reset"]) && !isset($_SESSION["PIN"]))
@@ -20,7 +34,7 @@
 
         $_SESSION["userEmail"] = $userEmail;
 
-        if(!empty($userEmail) && strpos($userEmail, '@') !== false)
+        if(emailIsValid($userEmail))
         {
             $sql = "SELECT *, COUNT(*) AS rowNbr
                     FROM users WHERE email = '".$userEmail."'";
@@ -91,6 +105,8 @@
 ?>
 <title>Forgot Pass</title>
     <link rel="stylesheet" href="../MainCss/signinRegister.css">
+    <link rel="stylesheet" href="../MainCss/inputFields.css">
+
     <script src="../MainJs/formValidation.js"></script>
 </head>
 <body>

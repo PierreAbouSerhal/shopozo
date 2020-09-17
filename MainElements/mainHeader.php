@@ -16,9 +16,11 @@
     <link rel="stylesheet" href="../MainCss/profile.css">
     <link rel="stylesheet" href="../MainCss/inputFields.css">
     <link rel="stylesheet" href="../MainCss/index.css">
+    
 
     <script src="../MainJs/sideNav.js"></script>
     <script src="../MainJs/formValidation.js"></script>
+    <script src="../MainJs/redirect.js"></script>
 
     <title><?php echo $title?></title>
 </head>
@@ -82,14 +84,14 @@
 
      <div class="mobile-header-container mobile">
         <div class="mobile-logo-container">
-            <img class="mobile-logo-img" src="../ShopozoPics/shopozo-logo.png" alt="shopozo">
+            <img class="mobile-logo-img" src="../ShopozoPics/shopozo-logo.png" alt="shopozo" onclick="redirect('HOM');">
         </div>
         <div class="mobile-menu-header">
             <?php
                 if($user["userOk"])
                 {
                     echo '
-                        <img class="menu-img" src="../ShopozoPics/user.svg" alt="profile">
+                        <img class="menu-img" src="../ShopozoPics/user.svg" alt="profile" onclick="redirect('.'\'ACC\''.');">
                         <img class="menu-img" src="../ShopozoPics/watch-list.svg" alt="watch-list">
                         <img class="menu-img" src="../ShopozoPics/shopping-cart.svg" alt="cart">
                     ';
@@ -110,7 +112,7 @@
     <!-- Normal header -->
 
     <form class="search-bar-container others">
-        <img class="logo-img" src="../ShopozoPics/shopozo-logo.png" alt="Shopozo">
+        <img class="logo-img" src="../ShopozoPics/shopozo-logo.png" alt="Shopozo" onclick="redirect('HOM')">
         <span class="search-bar">
             <span class="search-bar-input">
                 <span class="search-icon"></span>
