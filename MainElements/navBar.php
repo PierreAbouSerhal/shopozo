@@ -6,24 +6,19 @@
             <li>
                 <a href="#">Saved</a>
             </li>
-            <!-- CATEGORIES NEED TO BE ACCESSEBLE FROM DB -->
-            <li>
-                <a href="#">Saved</a>
-            </li>
-            <li>
-                <a href="#">Saved</a>
-            </li>
-            <li>
-                <a href="#">Saved</a>
-            </li>
-            <li>
-                <a href="#">Saved</a>
-            </li>
-            <li>
-                <a href="#">Saved</a>
-            </li>
-            <li>
-                <a href="#">Saved</a>
-            </li>
+            <?php
+                //MOVE POINTER TO BEGENING
+                mysqli_data_seek($queryPopularCateg, 0);
+
+                if(isset($queryPopularCateg))
+                {
+                    while($resPopularCateg = mysqli_fetch_assoc($queryPopularCateg))
+                    {
+                        echo '<li>
+                                <a href="../MainPhp/categories.php?categId='.$resPopularCateg["id"].'&subCategId=-1">'.$resPopularCateg["name"].'</a>
+                            </li>';
+                    }
+                }
+            ?>
         </ul>
     </div> 

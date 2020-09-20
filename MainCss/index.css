@@ -1,15 +1,22 @@
 .intrested-container{
     display: flex;
     flex-direction: row;
-    height: 200px;
+    height: 300px;
+    max-height: 300px;
     background-color: #9ef277;
     padding-left: 30px;
     margin-top: 20px;
 }
 
+.intrested-title a{
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: black;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
 .intrested-title{
-    font-size: 1.8rem;
-    font-style: bold;
     margin-top: 20px;
     margin-bottom: 30px;
 }
@@ -18,13 +25,18 @@
     width: 16px;
 }
 
+.intrested-product{
+    text-align: center;
+    width: 100%;
+}
+
 .shop-now-btn{
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid #118706;
     cursor: pointer;
-    padding: 5px 5px 5px 5px;
+    padding: 10px 5px 10px 5px;
     width: 150px;
 }
 
@@ -80,8 +92,49 @@
     text-align: center;
 }
 
+.link-title{
+    margin: 20px 0 20px 0;
+}
+
+.link-title a{
+    margin-right: 15px;
+    color: black;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link-title a:hover{
+    text-decoration: underline;
+}
+
+.recently-viewed-container{
+    margin-bottom: 60px;
+}
+
 @media (max-width: 500px){
     .intrested-title{
         font-size: 1.5rem;
+    }
+    
+    .link-title a{
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 630px){
+    .intrested-container{
+        flex-direction: column;
+        margin-top: 20px !important;
+        height: 350px !important;
+        max-height: 350px !important;
+    }
+    .intrested-title a{
+        font-size: 1.5rem;
+    }
+    .intrested-info{
+        display: flex;
+        flex-direction: column;
+        justify-content: left;
     }
 }

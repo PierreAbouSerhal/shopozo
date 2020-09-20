@@ -69,6 +69,16 @@ function emailIsValid($email)
     }
 }
 
+function searchInTable($idx)
+{
+    switch($idx)
+    {
+        case "CTG":
+            return "categories";
+            break;
+    }
+}
+
 if(isset($_SESSION["userToken"]) && isset($_SESSION["loggedin"]))
 {
     if($_SESSION["loggedin"])

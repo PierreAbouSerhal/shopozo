@@ -1,0 +1,4 @@
+.categ-and-products-container{
+    display: flex;
+    flex-direction: row;
+}

@@ -8,6 +8,38 @@
         logout();
     }
 
+    $sqlAllCateg = 'SELECT * FROM subCategories ORDER BY name';
+
+    $queryAllCateg = mysqli_query($dbConx, $sqlAllCateg);
+
+    $sqlPopularCateg = 'SELECT c.*,
+                               SUM(sc.popularityPts) AS totPts 
+                        FROM categories AS c 
+                        JOIN subCategories AS sc
+                        ON c.id = sc.categoryId
+                        GROUP BY c.id
+                        ORDER BY totPts DESC
+                        LIMIT 6';
+
+    $queryPopularCateg = mysqli_query($dbConx, $sqlPopularCateg);
+
+
+    
+    if(strpos($title, "_") !== false)
+    {
+        $detTitle = explode("_", mysqli_real_escape_string($dbConx, $title));
+        $idx = $detTitle[0];
+        $id  = $detTitle[1];
+
+        $sqlFetchTitle = 'SELECT name FROM '.searchInTable($idx).' WHERE id = '.$id;
+
+        $queryFetchTitle = mysqli_query($dbConx, $sqlFetchTitle);
+
+        $resFetchTitle = mysqli_fetch_assoc($queryFetchTitle);
+
+        $title = $resFetchTitle["name"];
+    }
+
     include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/MainElements/doctype.html");
 ?>
 
@@ -16,11 +48,17 @@
     <link rel="stylesheet" href="../MainCss/profile.css">
     <link rel="stylesheet" href="../MainCss/inputFields.css">
     <link rel="stylesheet" href="../MainCss/index.css">
-    
+    <link rel="stylesheet" href="../MainCss/carousel.css">
+    <link rel="stylesheet" href="../MainCss/mainFooter.css">
+
+    <!-- CAROUSEL -->
+    <link rel="stylesheet" type="text/css" href="../slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="../slick/slick-theme.css"/>
 
     <script src="../MainJs/sideNav.js"></script>
     <script src="../MainJs/formValidation.js"></script>
     <script src="../MainJs/redirect.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
     <title><?php echo $title?></title>
 </head>
@@ -67,19 +105,18 @@
 
 <div class="container">
 
-    <!-- Mobile header -->
+    <!-- MOBILE HEADER -->
 
     <div id="mySidenav" class="sidenav mobile">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <!-- NOTE: TO FILL LINKS WITH PHP FFROM DB CATEGORIES -->
-        <!-- NOTE: THE CURRENT LINKS ARE EXAMPLES -->
         <span>Cartegories</span>
-        <a href="#">Electronics</a>
-        <a href="#">Fashion</a>
-        <a href="#">Motors</a>
-        <a href="#">Sports</a>
-        <a href="#">Under 10$</a>
-        <a href="#">All Categories</a>
+                    
+        <?php
+            while($resPopularCateg = mysqli_fetch_assoc($queryPopularCateg))
+            {
+                echo '<a href="../MainPhp/categories.php?categId='.$resPopularCateg["id"].'&subCategId=-1">'.$resPopularCateg["name"].'</a>';
+            }
+        ?>
     </div>
 
      <div class="mobile-header-container mobile">
@@ -120,11 +157,15 @@
             </span>
             <span class="categories-combo-box-container">
                 <select class="combo-box" name="categorie" id="categ">
-                    <!-- SELECT TAG MUST BE FILLED FROM DB -->
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
+                    <?php
+                        echo '<option value=""> All Categories';
+
+                        while($resAllCateg = mysqli_fetch_assoc($queryAllCateg))
+                        {
+                            echo '<option value="'.$resAllCateg["id"].'">'.$resAllCateg["name"].'</option>';
+                        }
+                        mysqli_free_result($queryAllCateg);
+                    ?>
                 </select>            
             </span>
         </span>

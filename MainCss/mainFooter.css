@@ -1,0 +1,29 @@
+.main-footer{
+    border-top: 1px solid #9E9E9E;;
+}
+
+.footer-links{
+    display: flex;
+    list-style-type: none;
+    margin-top: 20px;
+}
+
+.footer-link{
+    margin-right: 5%;
+}
+
+.footer-link a{
+    color: #9E9E9E;
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+.footer-link a:hover{
+    text-decoration: underline;
+}
+
+.copyright{
+    font-size: 0.8rem;
+    color: #4e4e4e;
+    margin-top: 20px;
+}
