@@ -17,11 +17,6 @@
     $sqlFetchSubCateg = 'SELECT *
                          FROM subCategories
                          WHERE categoryId = '.$categId;
-    
-    if($subCategId != -1)
-    {
-        $sqlFetchSubCateg .= ' AND id = $subCategId';
-    }
 
     $queryFetchSubCateg = mysqli_query($dbConx, $sqlFetchSubCateg);
 
@@ -30,25 +25,39 @@
         header("Location: index.php");
         exit();
     }
+
+    $sqlFetchProducts = 'SELECT prod.*,
+                                prodSpecs.value AS prodSpec,
+                                prodPics.picture AS prodPic,
+                                specs.name AS prodSpec
+                         FROM products AS prod
+                         JOIN (
+                             SELECT prodSpecs AS prodSpecs
+                             JOIN  
+                             ON prod.id = prodSpecs.productId
+                            ) 
+                         ';
     
 ?>
-<h2 class="categories-page-header"><?php echo $title?></h2>
+<h1 class="categ-page-header"><?php echo $title?></h1>
 
 <div class="categ-and-products-container">
-    <div class="sub-categories-container">
+    <div class="sub-categ-container">
+        <span class="sub-categ-title">Shop By Categorie</span>       
         <ul>
             <?php
                 
                 while($resFetchSubCateg = mysqli_fetch_assoc($queryFetchSubCateg))
                 {
                     echo '<li>
-                            <a href="../MainPhp/categories.php?categId='.$resFetchSubCateg["categoryId"].'"&subCategId='.$resFetchSubCateg["id"].'>'.$resFetchSubCateg["name"].'</a>
+                            <a href="../MainPhp/categories.php?categId='.$resFetchSubCateg["categoryId"].'&subCategId='.$resFetchSubCateg["id"].'">'.$resFetchSubCateg["name"].'</a>
                           </li>';
                 }
             ?>
         </ul>
     </div>
     <div class="products-container">
+            <span class="sub-categ-title">Product List</span>
 
     </div>
 </div>

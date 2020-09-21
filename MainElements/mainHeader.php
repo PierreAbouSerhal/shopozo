@@ -49,6 +49,7 @@
     <link rel="stylesheet" href="../MainCss/inputFields.css">
     <link rel="stylesheet" href="../MainCss/index.css">
     <link rel="stylesheet" href="../MainCss/carousel.css">
+    <link rel="stylesheet" href="../MainCss/categories.css">
     <link rel="stylesheet" href="../MainCss/mainFooter.css">
 
     <!-- CAROUSEL -->
