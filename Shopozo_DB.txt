@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 16, 2020 at 09:30 PM
+-- Generation Time: Sep 21, 2020 at 10:50 PM
 -- Server version: 5.7.17
 -- PHP Version: 7.1.3
 
@@ -33,6 +33,15 @@ CREATE TABLE `brands` (
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `brands`
+--
+
+INSERT INTO `brands` (`id`, `name`) VALUES
+(1, 'Apple'),
+(2, 'Samsung'),
+(3, 'Huawei');
+
 -- --------------------------------------------------------
 
 --
@@ -41,9 +50,20 @@ CREATE TABLE `brands` (
 
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
-  `name` int(11) NOT NULL,
-  `popularityPts` int(11) NOT NULL
+  `name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`) VALUES
+(1, 'Electronics'),
+(2, 'Fashion'),
+(3, 'Health & Beauty'),
+(4, 'Motors'),
+(5, 'Sports'),
+(6, 'Collectibles');
 
 -- --------------------------------------------------------
 
@@ -369,8 +389,25 @@ CREATE TABLE `payments` (
 
 CREATE TABLE `productpics` (
   `productId` int(11) NOT NULL,
-  `picture` varchar(255) NOT NULL
+  `picture` varchar(255) NOT NULL,
+  `isPrimary` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `productpics`
+--
+
+INSERT INTO `productpics` (`productId`, `picture`, `isPrimary`) VALUES
+(3, '/Shopozo/ProductPics/iphoneXfront.png', 1),
+(3, '/Shopozo/ProductPics/iphoneXback.png', 0),
+(4, '/Shopozo/ProductPics/iphone11front.png', 1),
+(4, '/Shopozo/ProductPics/iphone11back.png', 0),
+(5, '/Shopozo/ProductPics/samsungs10.png', 1),
+(6, '/Shopozo/ProductPics/samsungs11.png', 1),
+(7, '/Shopozo/ProductPics/huaweiy7prime2018.jpg', 1),
+(8, '/Shopozo/ProductPics/Huawei-P40-Pro-1.png', 1),
+(8, '/Shopozo/ProductPics/Huawei-P40-Pro-2.png', 0),
+(8, '/Shopozo/ProductPics/Huawei-P40-Pro-3.png', 0);
 
 -- --------------------------------------------------------
 
@@ -384,13 +421,27 @@ CREATE TABLE `products` (
   `brandId` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `price` decimal(18,4) NOT NULL,
+  `discount` int(2) DEFAULT NULL,
   `stock` int(11) NOT NULL DEFAULT '0',
   `descr` text NOT NULL,
   `prodCond` varchar(255) NOT NULL,
+  `modifDate` date NOT NULL,
   `totalViews` int(11) NOT NULL DEFAULT '0',
   `totalSold` int(11) NOT NULL DEFAULT '0',
   `totalWatchers` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `subCategId`, `brandId`, `name`, `price`, `discount`, `stock`, `descr`, `prodCond`, `modifDate`, `totalViews`, `totalSold`, `totalWatchers`) VALUES
+(3, 1, 1, 'Iphone X 64GB', '999.0000', NULL, 20, '5.8-inch OLED display, facial recognition and 3D camera functionality, a glass body, and an A11 Bionic processor', 'New', '2020-09-21', 0, 0, 0),
+(4, 1, 1, 'Iphone 11 64GB', '1099.0000', NULL, 15, '6.1-inch LCD display \"Liquid Retina HD Display.\" It features a 1792 x 828 resolution at 326ppi, a 1400:1 contrast ratio, 625 nits max brightness, True Tone support for adjusting the white balance to the ambient lighting, and wide color support', 'New', '2020-09-21', 0, 0, 0),
+(5, 2, 2, 'Samsung Galaxy S10 128GB', '749.9900', NULL, 40, 'powered by Octa core (2.73 GHz, Dual core, M4 Mongoose + 2.31 GHz, Dual core, Cortex A75 + 1.95 GHz, Quad core, Cortex A55) processor. It runs on the Samsung Exynos 9 Octa 9820 Chipset. It has 8 GB RAM and 128 GB internal storage. Samsung Galaxy S10 smartphone has a Dynamic AMOLED display.\r\nRam: 8 GB', 'New', '2020-09-21', 0, 0, 0),
+(6, 2, 2, 'Samsung Galaxy S11 512GB', '1299.0000', NULL, 6, 'runs on Android v10 (Q) operating system. The phone is powered by Octa core (2.73 GHz, Dual core + 2.31 GHz, Dual core, Cortex A75 + 1.95 GHz, Quad core, Cortex A55) processor. It runs on the Samsung Exynos 9 Octa 990 Chipset. It has 8 GB RAM and 256 GB internal storage.\r\nRam: 8 GB\r\n\r\n', 'New', '2020-09-21', 0, 0, 0),
+(7, 3, 3, 'Huawei Y7 Prim 2018', '199.0000', NULL, 120, 'powered by a 1.4GHz octa-core Qualcomm Snapdragon 430 processor. It comes with 3GB of RAM. The Huawei Y7 Prime 2018 runs Android 8.0 Oreo and is powered by a 3000mAh battery. As far as the cameras are concerned, the Huawei Y7 Prime 2018 on the rear packs 13-megapixel camera.', 'New', '2020-09-21', 0, 0, 0),
+(8, 3, 3, 'Huawei P40 Pro 256GB', '859.0000', NULL, 54, 'runs on Android v10 (Q) operating system. The phone is powered by Octa core (2.86 GHz, Dual core, Cortex A76 + 2.36 GHz, Dual core, Cortex A76 + 1.95 GHz, Quad core, Cortex A55) processor. It runs on the HiSilicon Kirin 990 5G Chipset. It has 8 GB RAM and 256 GB internal storage.', 'New', '2020-09-21', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -404,6 +455,49 @@ CREATE TABLE `productspecs` (
   `specId` int(11) NOT NULL,
   `value` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `productspecs`
+--
+
+INSERT INTO `productspecs` (`id`, `productId`, `specId`, `value`) VALUES
+(1, 3, 2, '174g'),
+(2, 3, 3, 'Nano-SIM'),
+(3, 3, 4, '5.8 inches, 84.4 cm2'),
+(4, 3, 6, 'iOS 11.1.1, upgradable to iOS 14'),
+(5, 3, 7, 'Apple A11 Bionic (10 nm)'),
+(6, 3, 1, 'Space Gray, Silver'),
+(7, 4, 8, '4 GB'),
+(8, 4, 4, '6.1 inches'),
+(9, 4, 6, 'iOS 13'),
+(10, 4, 3, 'Nano-SIM'),
+(11, 4, 7, 'Apple A13 Bionic (7 nm+)'),
+(12, 4, 1, 'Space grey, Black, White'),
+(20, 5, 2, '157g'),
+(21, 5, 4, '149.9 x 70.4 x 7.8mm.'),
+(22, 5, 6, 'Android 9'),
+(23, 5, 7, 'Octa-core chipset.'),
+(24, 5, 8, '8GB'),
+(25, 5, 1, 'Black'),
+(26, 6, 8, '8GB'),
+(27, 6, 6, 'Android v10 (Q)'),
+(28, 6, 7, 'Samsung Exynos 9 Octa 990'),
+(29, 6, 4, '6.7 inches (17.02 cm)'),
+(30, 6, 3, 'Dual-SIM'),
+(31, 7, 2, '155 g '),
+(32, 7, 3, 'Dual SIM (Nano-SIM, dual stand-by)'),
+(33, 7, 4, '5.99 inches, 92.6 cm2'),
+(34, 7, 7, 'Android 8.0 (Oreo), EMUI 8'),
+(35, 7, 7, 'Qualcomm MSM8937 Snapdragon 430 (28 nm)'),
+(36, 7, 1, 'Black, Gold, Blue'),
+(37, 7, 5, '720 x 1440 pixels, 18:9 ratio'),
+(38, 8, 2, '209 g '),
+(39, 8, 3, 'Single SIM (Nano-SIM/eSIM)'),
+(40, 8, 4, '6.58 inches, 105.2 cm2'),
+(41, 8, 5, '1200 x 2640 pixels'),
+(42, 8, 6, 'Android 10, EMUI 10.1'),
+(43, 8, 7, 'Kirin 990 5G (7 nm+)'),
+(44, 8, 1, 'Blush Gold');
 
 -- --------------------------------------------------------
 
@@ -447,8 +541,22 @@ CREATE TABLE `shoppingcarts` (
 
 CREATE TABLE `specs` (
   `id` int(11) NOT NULL,
-  `name` int(11) NOT NULL
+  `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `specs`
+--
+
+INSERT INTO `specs` (`id`, `name`) VALUES
+(1, 'Color'),
+(2, 'Weight'),
+(3, 'SIM'),
+(4, 'Size'),
+(5, 'Resolution'),
+(6, 'OS'),
+(7, 'Chipset'),
+(8, 'RAM');
 
 -- --------------------------------------------------------
 
@@ -459,8 +567,29 @@ CREATE TABLE `specs` (
 CREATE TABLE `subcategories` (
   `id` int(11) NOT NULL,
   `categoryId` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL
+  `name` varchar(50) NOT NULL,
+  `picture` varchar(255) NOT NULL,
+  `popularityPts` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `subcategories`
+--
+
+INSERT INTO `subcategories` (`id`, `categoryId`, `name`, `picture`, `popularityPts`) VALUES
+(1, 1, 'Iphone', '', 10),
+(2, 1, 'Samsung', '', 8),
+(3, 1, 'Huawei', '', 20),
+(4, 2, 'Women\'s clothing', '', 45),
+(5, 2, 'Men\'s clothing', '', 38),
+(6, 3, 'Makeup', '', 15),
+(7, 3, 'Skin Care', '', 64),
+(8, 4, 'Car & Truck Parts', '', 165),
+(9, 4, 'ATV parts', '', 14),
+(10, 6, 'Stamps', '', 3),
+(11, 6, 'Action Figures', '', 91),
+(12, 5, 'Soccer', '', 215),
+(13, 5, 'Tennis', '', 32);
 
 -- --------------------------------------------------------
 
@@ -472,6 +601,36 @@ CREATE TABLE `subcategspecs` (
   `subCategId` int(11) NOT NULL,
   `specId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `subcategspecs`
+--
+
+INSERT INTO `subcategspecs` (`subCategId`, `specId`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(2, 1),
+(2, 2),
+(2, 3),
+(2, 4),
+(2, 5),
+(2, 6),
+(2, 7),
+(3, 1),
+(3, 2),
+(3, 3),
+(3, 4),
+(3, 5),
+(3, 6),
+(3, 7),
+(1, 8),
+(2, 8),
+(3, 8);
 
 -- --------------------------------------------------------
 
@@ -502,7 +661,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role`, `first`, `last`, `email`, `phone`, `countryId`, `province`, `city`, `street`, `postalCode`, `passHash`, `activationCode`, `activated`, `creationDate`) VALUES
-(1, 'CLIENT', 'Pierre', 'Abou Serhal', 'pieroas123321@gmail.com', '76331288', 118, '', '', '', '', '$2y$10$ljIugeAK/Kxe8TIfFT6OzOLlAr0EJbSZ1CGR256pNxnWItisyMvRG', '$2y$10$JLrzSAMZam8gsIPOeoIfD.cEXL8JWrb7TRpPKtvCztNru1yQb41re', 1, '2020-08-27');
+(1, 'CLIENT', 'Pierre', 'Abou Serhal', 'pieroas123321@gmail.com', '76331288', 118, 'Maten', 'Baabdat', 'Mar Gergers Street', '123456', '$2y$10$WcfzviIkZhn4mrPrTQ.sB.b54j1y7HE3wDFjnft4qhAHHhfuTrb9K', '$2y$10$JLrzSAMZam8gsIPOeoIfD.cEXL8JWrb7TRpPKtvCztNru1yQb41re', 1, '2020-08-27');
 
 -- --------------------------------------------------------
 
@@ -522,7 +681,7 @@ CREATE TABLE `usertokens` (
 --
 
 INSERT INTO `usertokens` (`userId`, `hashedToken`, `creationDate`, `creationTime`) VALUES
-(1, '32453776dc8d23b98a3f430807c8a88b59f4fa1222b526fdb96bb2b9351fbc26', '2020-09-15', '21:34:24');
+(1, '659887b69cbffbe1afa6b3354629ce81d3362c6aedf2b0931c8628097889dc24', '2020-09-17', '20:50:38');
 
 -- --------------------------------------------------------
 
@@ -597,7 +756,7 @@ ALTER TABLE `productpics`
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
   ADD KEY `brandId` (`brandId`),
-  ADD KEY `products_ibfk_2` (`subCategId`);
+  ADD KEY `subCategId` (`subCategId`);
 
 --
 -- Indexes for table `productspecs`
@@ -677,12 +836,12 @@ ALTER TABLE `watchlists`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `countrys`
 --
@@ -702,17 +861,22 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `productspecs`
 --
 ALTER TABLE `productspecs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT for table `specs`
 --
 ALTER TABLE `specs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `subcategories`
+--
+ALTER TABLE `subcategories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -758,8 +922,8 @@ ALTER TABLE `productpics`
 -- Constraints for table `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`subCategId`) REFERENCES `subcategories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`brandId`) REFERENCES `brands` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`brandId`) REFERENCES `brands` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `products_ibfk_4` FOREIGN KEY (`subCategId`) REFERENCES `subcategories` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `productspecs`
