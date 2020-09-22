@@ -4,9 +4,6 @@
 
 .carousel-auto{
     height: 100%;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
 }
 
 .slick-track{
@@ -18,7 +15,8 @@
 }
 
 .carousel-intrested-img{
-    width: 250px;
+    max-width: 250px;
+    max-height: 250px;
 }
 
 .slick-arrow{
@@ -46,14 +44,17 @@
 .carousel-intrested-container{
     cursor: pointer;
     margin-right: 20px;
-    background-color: transparent;
-    height: 100% !important;
+    padding-top: 30px;
+    background-color: transparent !important;
     display: flex !important;
     justify-content: center !important;
 }
 
 .carousel-auto .slick-list .slick-track{    
     margin-left: auto !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
 }
 
 .carousel-price-container{
@@ -120,6 +121,7 @@
 @media screen and (max-width: 630px){
     .carousel-intrested-container{
         margin-top: 20px;
+        padding-top: 0;
     }
 }
 
@@ -130,7 +132,8 @@
     }
 
     .carousel-intrested-img{
-        width: 180px;
+        max-width: 180px;
+        max-height: 180px;
     }
 }
 

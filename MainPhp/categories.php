@@ -26,17 +26,17 @@
         exit();
     }
 
-    $sqlFetchProducts = 'SELECT prod.*,
-                                prodSpecs.value AS prodSpec,
-                                prodPics.picture AS prodPic,
-                                specs.name AS prodSpec
-                         FROM products AS prod
-                         JOIN (
-                             SELECT prodSpecs AS prodSpecs
-                             JOIN  
-                             ON prod.id = prodSpecs.productId
-                            ) 
-                         ';
+    $sqlFetchProducts = 'SELECT products.*, productpics.picture
+                         FROM (
+                                 SELECT products.*, subcategories.categoryId
+                                 FROM products JOIN subcategories ON products.subCategId = subcategories.id
+                                 WHERE subcategories.categoryId = 1
+                             )AS products
+                         JOIN productpics ON productpics.productId = products.id
+                         WHERE productpics.isPrimary = 1
+                         ORDER BY products.totalWatchers DESC';
+    
+    $queryFetchProducts = mysqli_query($dbConx, $sqlFetchProducts);
     
 ?>
 <h1 class="categ-page-header"><?php echo $title?></h1>
@@ -56,12 +56,23 @@
             ?>
         </ul>
     </div>
+
     <div class="products-container">
             <span class="sub-categ-title">Product List</span>
 
+            <div class="product-details-contaier">
+                <div class="product-img-container">
+                    <img class="product-img" src="../ProductPics/iphone11front.png" alt="iphone 11">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Iphone 11 Pro Max 256GB NEW Ndif 3a sekin ya batikh</h3>
+                    <div class="product-Condition">New</div>
+                    <div class="product-price">1299$</div>
+                    <div class="product-watchers">127 Watchers</div>
+                </div>
+            </div>
     </div>
 </div>
-
 <?php
     include_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/MainElements/mainFooter.html");
 ?>

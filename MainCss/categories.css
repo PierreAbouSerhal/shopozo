@@ -36,6 +36,35 @@
 }
 
 .products-container{
+    height: 300px;
+    max-height: 300px;
     padding: 20px;
     width: 100%;
+}
+
+.product-details-contaier{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 10px;
+    border-bottom: 1px solid #9E9E9E;
+}
+
+.product-img-container{
+    height: 225px;
+    width: 225px;
+}
+
+.product-img{
+    max-width: 220px;
+    max-height: 220px;
+}
+
+.product-img-container{
+    text-align: center;
+    border: 1px solid #9E9E9E;
+}
+
+.product-info{
+    padding-left: 10px;
 }

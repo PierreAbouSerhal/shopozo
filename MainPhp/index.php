@@ -37,44 +37,29 @@
     $sqlPopular = 'SELECT *
                    FROM subCategories
                    ORDER BY popularityPts
-                   ASC';
+                   DESC';
     
     $queryPopular = mysqli_query($dbConx, $sqlPopular);
         
-    $sqlIntrested = '   SELECT prodPic.picture,
-                               prod.id AS intrestedId,
-                               prod.name AS prodName
-                        FROM productPics AS prodPic,
-                             products AS prod
-                        WHERE prod.subCategId IN
-                        (
-                            SELECT prod.subCategId
-                            FROM products AS prod
-                            JOIN
+    
+    $sqlIntrested = '   SELECT prodPics.picture,
+                                prod.id AS prductId,
+                                prod.name AS prodName,
+                                prod.popularityPts AS points
+                        FROM productPics AS prodPics
+                        JOIN 
                             (
-                                SELECT allProd.userId, 
-                                       allProd.prodId, 
-                                       COUNT(prodId) AS total_prod 
-                                FROM
-                                    (
-                                        SELECT h.userId AS userId, 
-                                               h.productId AS prodId 
-                                        FROM history AS h
-                                        UNION ALL
-                                        SELECT s.userId AS userId,
-                                               s.productId AS prodId 
-                                        FROM savedproducts AS s
-                                        UNION ALL
-                                        SELECT w.userId AS userId,
-                                               w.productId AS prodId 
-                                        FROM watchlists AS w
-                                    ) AS allProd
-                                WHERE allProd.userId = '.$user["userId"].'
-                                GROUP BY prodId
-                                ORDER BY total_prod ASC 
-                                LIMIT 3
-                            ) AS totProd ON totProd.prodId = prod.id
-                        )';
+                                SELECT products.id, products.name, products.subCategId, subCateg.popularityPts
+                                FROM products
+                                JOIN subcategories AS subCateg 
+                                ON products.subCategId = subCateg.id
+                            )AS prod
+                        ON prod.id = prodPics.productId
+                        WHERE prodPics.isPrimary = 1
+                        ORDER BY prod.popularityPts DESC
+                        LIMIT 10';
+    
+    
     
     $queryIntrested = mysqli_query($dbConx, $sqlIntrested);
 ?>
@@ -93,23 +78,22 @@
     </div>
 
     <div class="intrested-products">
+        <div class="carousel-auto" style="text-align: left;">
         <?php
             if(mysqli_num_rows($queryIntrested) > 0)
             {
                 while($resIntrested = mysqli_fetch_assoc($queryIntrested))
                 {
-                    echo '
-                        <div class="carousel-auto" style="text-align: left;">
-                            <div class="carousel-intrested-container carousel-intrested">
+                    echo '<div class="carousel-intrested-container">
                                 <img class="carousel-intrested-img" src="'.$resIntrested["picture"].'" alt="'.$resIntrested["prodName"].'">
-                            </div>
-                        </div>
+                          </div>
+                        
                     ';
                 }
                 mysqli_free_result($queryIntrested);
             }
-                
         ?>
+        </div>
     </div>
 
 </div>
@@ -117,47 +101,50 @@
 <?php
     if(!$user["userOk"])
     {
-        echo '<div class="popular-categories-container">';
-
         if(mysqli_num_rows($queryPopular) > 0)
         {
-            while($resPopular = mysqli_fetch_assoc($queryPopular))
-            {
-                echo '
+            echo '<div class="popular-categories-container">
                     <div class="link-title">
                         <a href="#">Explore popular categories</a>
                         <img src="../ShopozoPics/right-arrow.png" style="width: 15px;" alt="Go">
                     </div>
-                    <div class="carousel" style="text-align: left;">
+
+                    <div class="carousel" style="text-align: left;">';
+
+            while($resPopular = mysqli_fetch_assoc($queryPopular))
+            {
+                echo '
                         <div class="carousel-item-container carousel-categ">
                             <img class="carousel-item-img" src="'.$resPopular["picture"].'" alt="'.$resPopular["name"].'">
                             <div class="carousel-categ-name-container">
                                 <span class="carousel-categ-name">'.$resPopular["name"].'</span>
                             </div>
                         </div>
-                    </div>
                 ';
             }
             mysqli_free_result($queryPopular);
         }
 
-        echo '</div>';
+        echo '</div>
+            </div>';
     }
 ?>
 <!-- RECENTLY VIEWED PRODUCTS -->
+<div class="recently-viewed-container">
 <?php
-        echo '<div class="recently-viewed-container">';
-        
+    if($user["userOk"])
+    {
         if(mysqli_num_rows($queryRecent) > 0)
         {
+            echo '<div class="link-title">
+                    <a href="#">See all your Viewed Items</a>
+                    <img src="../ShopozoPics/right-arrow.png" style="width: 15px;" alt="Go">
+                </div>
+                <div class="carousel" style="text-align: left;">';
+
             while($resRecent = mysqli_fetch_assoc($queryRecent))
             {
                 echo '
-                    <div class="link-title">
-                        <a href="#">See all your Viewed Items</a>
-                        <img src="../ShopozoPics/right-arrow.png" style="width: 15px;" alt="Go">
-                    </div>
-                    <div class="carousel" style="text-align: left;">
                         <div class="carousel-item-container">
                             <img class="carousel-item-img" src="'.$resRecent["picture"].'" alt="'.$resRecent["prodName"].'">
                             <div class="carousel-price-container">
@@ -168,16 +155,22 @@
                 ';
             }
             mysqli_free_result($queryRecent);
-        }
-
-        echo '</div>';   
+        } 
+    }
     ?>
+</div>
     <!-- DAILY DEALS -->
     <?php
         echo '<div class="daily-deals-container">';
         
         if(mysqli_num_rows($queryDaily) > 0)
         {
+            echo '
+                <div class="link-title">
+                    <a href="#">Daily Deals</a>
+                    <img src="../ShopozoPics/right-arrow.png" style="width: 15px;" alt="Go">
+                </div>
+                <div class="carousel" style="text-align: left;">';
             while($resDaily = mysqli_fetch_assoc($queryDaily))
             {
                 $prodDisc      = $resDaily["discount"];
@@ -185,11 +178,6 @@
                 $prodDiscPrice = (empty($prodDisc)) ? $prodPrice : $prodPrice - ($prodPrice * ($prodDisc / 100)) ;
 
                 echo '
-                <div class="link-title">
-                    <a href="#">Daily Deals</a>
-                    <img src="../ShopozoPics/right-arrow.png" style="width: 15px;" alt="Go">
-                </div>
-                <div class="carousel" style="text-align: left;">
                     <div class="carousel-item-container">
                         <img class="carousel-item-img" src="'.$resDaily["picture"].'" alt="'.$resDaily["prodName"].'">
                         <div class="carousel-price-container">
