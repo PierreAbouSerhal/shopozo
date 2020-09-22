@@ -110,7 +110,7 @@
 
     <div id="mySidenav" class="sidenav mobile">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <span>Cartegories</span>
+        <span style="white-space: nowrap">Main Cartegories</span>
                     
         <?php
             while($resPopularCateg = mysqli_fetch_assoc($queryPopularCateg))
