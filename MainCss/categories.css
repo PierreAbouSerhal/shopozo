@@ -72,6 +72,7 @@
     color: #6EBE47;
     cursor: pointer;
     font-weight: 100;
+    margin-bottom: 5px;
 }
 
 .product-name:hover{
@@ -84,15 +85,23 @@
     margin-bottom: 20px;
 }
 
-.product-price{
+.margin-bottom-20{
+    margin-bottom: 20px;
+}
+
+.product-discount-price{
     font-weight: bold;
     font-size: 1.2rem;
-    margin-bottom: 20px;
 }
 
 .product-watchers{
     font-size: 0.8rem;
     color: #096800;
+}
+
+.product-old-price{
+    text-decoration: line-through;
+    margin-right: 10px;
 }
 
 .heart-circle-icon{
@@ -124,9 +133,27 @@
     cursor: pointer;
 }
 
+.selected-categorie{
+    text-decoration: underline;
+    color: #6EBE47;
+}
+
 @media (max-width: 500px) {
     .product-name{
         font-size: 0.95rem;
+    }
+    .product-discount-price{
+        font-size: 0.95rem;
+    }
+    .heart-circle-icon{
+        width: 18px;
+    }
+    .watch-icon{
+        width: 18px;
+        right: 30px;
+    }
+    .product-watchers{
+        font-size: 0.7rem;
     }
 }
 

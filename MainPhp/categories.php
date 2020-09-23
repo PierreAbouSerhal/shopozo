@@ -26,12 +26,36 @@
         exit();
     }
 
-    $sqlFetchProducts = 'SELECT products.*, productpics.picture
+    if($subCategId > 0)
+    {
+        $sqlVerifSubCateg = 'SELECT COUNT(*) AS rowNbr
+                             FROM subCategories
+                             WHERE id = '.$subCategId;
+        
+        $queryVerifSubCateg = mysqli_query($dbConx, $sqlVerifSubCateg);
+
+        $resVerifSubCateg = mysqli_fetch_assoc($queryVerifSubCateg);
+
+        if($resVerifSubCateg["rowNbr"] == 0)
+        {
+            header("Location: index.php");
+            exit();
+        }
+
+    }
+
+    $sqlFetchProducts = 'SELECT products.*,
+                                productpics.picture
                          FROM (
                                  SELECT products.*, subcategories.categoryId
                                  FROM products JOIN subcategories ON products.subCategId = subcategories.id
-                                 WHERE subcategories.categoryId = 1
-                             )AS products
+                                 WHERE subcategories.categoryId = '.$categId;
+    if($subCategId > 0)
+    {
+        $sqlFetchProducts .= ' AND subcategories.id = '.$subCategId;
+    }                             
+
+    $sqlFetchProducts .= ')AS products
                          JOIN productpics ON productpics.productId = products.id
                          WHERE productpics.isPrimary = 1
                          ORDER BY products.totalWatchers DESC';
@@ -76,6 +100,7 @@
                 echo '<a href="../MainPhp/categories.php?categId='.$resFetchSubCateg["categoryId"].'&subCategId='.$resFetchSubCateg["id"].'">'.$resFetchSubCateg["name"].'</a>';
             }
         ?>
+        <a href="../MainPhp/categories.php?categId=<?php echo $categId?>&subCategId=-1">All Categories</a>
     </div>
 
 <div class="categ-page-header">
@@ -97,7 +122,10 @@
                           </li>';
                 }
             ?>
-        </ul>
+                <li>
+                    <a href="../MainPhp/categories.php?categId=<?php echo $categId?>&subCategId=-1">All Categories</a>
+                </li>
+            </ul>
     </div>
 
     <div class="products-container">
@@ -105,19 +133,37 @@
             <?php
                 while($resFetchProducts = mysqli_fetch_assoc($queryFetchProducts))
                 {
-                    $prodId   = $resFetchProducts["id"];
-                    $watchers = ($resFetchProducts["totalWatchers"] > 0) ? $resFetchProducts["totalWatchers"]." Watchers" : "";
-                    
+                    $prodId        = $resFetchProducts["id"];
+                    $watchers      = ($resFetchProducts["totalWatchers"] > 0) ? $resFetchProducts["totalWatchers"]." Watcher" : "";
+                    $watchers      = ($watchers > 1) ? $watchers."s" : $watchers;
+                    $prodDisc      = $resFetchProducts["discount"];
+                    $prodPrice     = $resFetchProducts["price"];
+                    $prodDiscPrice = (empty($prodDisc)) ? $prodPrice : $prodPrice - ($prodPrice * ($prodDisc / 100)) ;
+
                     echo '<div class="product-details-contaier">
-                                <div class="product-img-container">
+                                <div class="product-img-container" onclick="prodDetails('.$prodId.');">
                                 <img class="product-img" src="'.$resFetchProducts["picture"].'" alt="'.$resFetchProducts["name"].'">
                             </div>
 
                             <div class="product-info">
-                                <h3 class="product-name">'.$resFetchProducts["name"].'</h3>
+                                <h3 class="product-name" onclick="prodDetails('.$prodId.');">'.$resFetchProducts["name"].'</h3>
                                 <div class="product-Condition">'.$resFetchProducts["prodCond"].'</div>
-                                <div class="product-price">'.$resFetchProducts["price"].'$</div>
-                                <div class="product-watchers">'.$watchers.'</div>
+                                <div class="product-discount-price ';
+                                if(empty($prodDisc))
+                                {
+                                    echo "margin-bottom-20";
+                                }
+
+                    echo         '">'.$prodDiscPrice.'$</div>';
+                                if(!empty($prodDisc))
+                                {
+                                    echo '<div class="product-old-price-container margin-bottom-20">
+                                            <span class="product-Condition">Was:</span>
+                                            <span class="product-old-price product-Condition">'.$prodPrice.'$</span>
+                                            <span class="product-Condition">'.$prodDisc.'% off</span>
+                                          </div>';
+                                }
+                    echo       '<div class="product-watchers">'.$watchers.'</div>
                             </div>';
                             if($user["userOk"])
                             {
@@ -142,75 +188,6 @@
                     echo '</div>';
                 }
             ?>
-    </br></br>
-            <div class="product-details-contaier">
-
-                <div class="product-img-container">
-                    <img class="product-img" src="../ProductPics/iphone11front.png" alt="iphone 11">
-                </div>
-
-                <div class="product-info">
-                    <h3 class="product-name">Iphone 11 Pro Max 256GB NEW Ndif 3a sekin ya batikh</h3>
-                    <div class="product-Condition">New</div>
-                    <div class="product-price">1299$</div>
-                    <div class="product-watchers">127 Watchers</div>
-                </div>
-
-                <img class="heart-circle-icon" id="PRD_2" src="../ShopozoPics/heart-circle.svg">
-
-                <img class="watch-icon" src="../ShopozoPics/watch-eye.svg">
-            </div>
-            <div class="product-details-contaier">
-
-                <div class="product-img-container">
-                    <img class="product-img" src="../ProductPics/iphone11front.png" alt="iphone 11">
-                </div>
-
-                <div class="product-info">
-                    <h3 class="product-name">Iphone 11 Pro Max 256GB NEW Ndif 3a sekin ya batikh</h3>
-                    <div class="product-Condition">New</div>
-                    <div class="product-price">1299$</div>
-                    <div class="product-watchers">127 Watchers</div>
-                </div>
-
-                <img class="heart-circle-icon" src="../ShopozoPics/heart-circle.svg">
-                
-                <img class="watch-icon" src="../ShopozoPics/watch-eye.svg">
-            </div>
-            <div class="product-details-contaier">
-
-                <div class="product-img-container">
-                    <img class="product-img" src="../ProductPics/iphone11front.png" alt="iphone 11">
-                </div>
-
-                <div class="product-info">
-                    <h3 class="product-name">Iphone 11 Pro Max 256GB NEW Ndif 3a sekin ya batikh</h3>
-                    <div class="product-Condition">New</div>
-                    <div class="product-price">1299$</div>
-                    <div class="product-watchers">127 Watchers</div>
-                </div>
-
-                <img class="heart-circle-icon" src="../ShopozoPics/heart-circle.svg">
-                
-                <img class="watch-icon" src="../ShopozoPics/watch-eye.svg">
-            </div>
-            <div class="product-details-contaier">
-
-                <div class="product-img-container">
-                    <img class="product-img" src="../ProductPics/iphone11front.png" alt="iphone 11">
-                </div>
-
-                <div class="product-info">
-                    <h3 class="product-name">Iphone 11 Pro Max 256GB NEW Ndif 3a sekin ya batikh</h3>
-                    <div class="product-Condition">New</div>
-                    <div class="product-price">1299$</div>
-                    <div class="product-watchers">127 Watchers</div>
-                </div>
-
-                <img class="heart-circle-icon" src="../ShopozoPics/heart-circle.svg">
-                
-                <img class="watch-icon" src="../ShopozoPics/watch-eye.svg">
-            </div>
     </div>
 </div>
 
@@ -307,8 +284,6 @@
                     {
                         if(response == 1)
                         {
-                            //CHANGE ICON
-
                             //CHANGE ICON
                             if(status == "RMV")
                             {

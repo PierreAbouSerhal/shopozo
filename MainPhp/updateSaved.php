@@ -20,7 +20,7 @@
     
     $resFetchProd = mysqli_fetch_assoc($queryFetchProd);
 
-    if($resFetchProd["rowNbr"] == 1)
+    if($resFetchProd["rowNbr"] > 0)
     {
         $sqlAddOrRmv = 'DELETE FROM savedProducts WHERE userId = '.$userId.' AND productId = '.$prodId;
     }

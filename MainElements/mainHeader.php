@@ -22,8 +22,6 @@
                         LIMIT 6';
 
     $queryPopularCateg = mysqli_query($dbConx, $sqlPopularCateg);
-
-
     
     if(strpos($title, "_") !== false)
     {
@@ -140,7 +138,7 @@
         </div>
      </div>
      
-     <form class="mobile-search-bar-container mobile">
+     <form method="POST" action="searchResult.php" class="mobile-search-bar-container mobile">
         <div class="mobile-search-wrapper">
             <input class="mobile-search-input" type="text" name="userSearch" placeholder="Search for anything">
         </div>
@@ -149,15 +147,15 @@
 
     <!-- Normal header -->
 
-    <form class="search-bar-container others">
+    <form method="POST" action="searchResult.php" class="search-bar-container others">
         <img class="logo-img" src="../ShopozoPics/shopozo-logo.png" alt="Shopozo" onclick="redirect('HOM')">
         <span class="search-bar">
             <span class="search-bar-input">
                 <span class="search-icon"></span>
-                <input type="text" placeholder="Search for anything">
+                <input type="text" name="userSearch" placeholder="Search for anything">
             </span>
             <span class="categories-combo-box-container">
-                <select class="combo-box" name="categorie" id="categ">
+                <select class="combo-box" name="subCategId" id="categ">
                     <?php
                         echo '<option value=""> All Categories';
 

@@ -10,3 +10,8 @@ function redirect(idx)
             break;
     }
 }
+
+function prodDetails(prodId)
+{
+    window.location.href = "http://localhost/Shopozo/MainPhp/prodDetails.php?prodId="+prodId;
+}

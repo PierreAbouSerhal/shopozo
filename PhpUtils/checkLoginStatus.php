@@ -76,6 +76,9 @@ function searchInTable($idx)
         case "CTG":
             return "categories";
             break;
+        case "PRD":
+            return "products";
+            break;
     }
 }
 
