@@ -37,6 +37,32 @@
                          ORDER BY products.totalWatchers DESC';
     
     $queryFetchProducts = mysqli_query($dbConx, $sqlFetchProducts);
+
+    $sqlFetchSaved = $sqlFetchWatchList = $queryFetchSaved = $queryFetchWatchList = "";
+
+    $userSaved = $userWList = array();
+
+    if($user["userOk"])
+    {
+        $sqlFetchSaved = 'SELECT * FROM savedProducts WHERE userId = '.$user["userId"];
+
+        $queryFetchSaved = mysqli_query($dbConx, $sqlFetchSaved);
+
+        while($resFetchSaved = mysqli_fetch_assoc($queryFetchSaved))
+        {
+            $userSaved[] = $resFetchSaved["productId"];
+        }
+
+        $sqlFetchWatchList = 'SELECT * FROM watchLists WHERE userId = '.$user["userId"];
+
+        $queryFetchWatchList = mysqli_query($dbConx, $sqlFetchWatchList);
+
+        while($resFetchWatchList = mysqli_fetch_assoc($queryFetchWatchList))
+        {
+            $userWList[] = $resFetchWatchList["productId"];
+        }
+    }
+    
     
 ?>
 
@@ -76,7 +102,47 @@
 
     <div class="products-container">
             <span class="sub-categ-title">Product List</span>
+            <?php
+                while($resFetchProducts = mysqli_fetch_assoc($queryFetchProducts))
+                {
+                    $prodId   = $resFetchProducts["id"];
+                    $watchers = ($resFetchProducts["totalWatchers"] > 0) ? $resFetchProducts["totalWatchers"]." Watchers" : "";
+                    
+                    echo '<div class="product-details-contaier">
+                                <div class="product-img-container">
+                                <img class="product-img" src="'.$resFetchProducts["picture"].'" alt="'.$resFetchProducts["name"].'">
+                            </div>
 
+                            <div class="product-info">
+                                <h3 class="product-name">'.$resFetchProducts["name"].'</h3>
+                                <div class="product-Condition">'.$resFetchProducts["prodCond"].'</div>
+                                <div class="product-price">'.$resFetchProducts["price"].'$</div>
+                                <div class="product-watchers">'.$watchers.'</div>
+                            </div>';
+                            if($user["userOk"])
+                            {
+                                if(in_array($prodId, $userSaved))
+                                {
+                                    echo '<img class="heart-circle-icon" id="PRD_RMV_'.$prodId.'" src="../ShopozoPics/heart-circle-filled.svg">';
+                                }
+                                else
+                                {
+                                    echo '<img class="heart-circle-icon" id="PRD_ADD_'.$prodId.'" src="../ShopozoPics/heart-circle.svg">';
+                                }
+                                if(in_array($prodId, $userWList))
+                                {
+                                    echo '<img class="watch-icon" id="PRD_RMV_'.$prodId.'" src="../ShopozoPics/pressed-watch-eye.svg">';
+                                }
+                                else
+                                {
+                                    echo '<img class="watch-icon" id="PRD_ADD_'.$prodId.'" src="../ShopozoPics/watch-eye.svg">';
+                                }
+                            }
+
+                    echo '</div>';
+                }
+            ?>
+    </br></br>
             <div class="product-details-contaier">
 
                 <div class="product-img-container">
@@ -160,8 +226,19 @@
                 let splitid = id.split("_");
 
                 //IDS
-                let prodId = splitid[1];
-                let userId = <?php echo $user["userId"]?>;
+                let status = splitid[1]; 
+                let prodId = splitid[2];
+                let userId = <?php 
+                                if(empty($user["userId"]))
+                                {
+                                    echo '""';
+                                }
+                                else
+                                {
+                                    echo $user["userId"];
+                                }
+                             ?>;
+                $(el).attr("src", "../ShopozoPics/loading-anim.gif");
 
                 //AJAX REQUEST
                 $.ajax(
@@ -173,9 +250,17 @@
                     {
                         if(response == 1)
                         {
-                            console.log("response = 1");
                             //CHANGE ICON
-                            $(el).attr("src", "../ShopozoPics/heart-circle-filled.svg");
+                            if(status == "RMV")
+                            {
+                                $(el).attr("src", "../ShopozoPics/heart-circle.svg");
+                                $(el).attr("id", "PRD_ADD_"+prodId);
+                            }
+                            else if(status == "ADD")
+                            {
+                                $(el).attr("src", "../ShopozoPics/heart-circle-filled.svg");
+                                $(el).attr("id", "PRD_RMV_"+prodId);
+                            }
                         }
                         else
                         {
@@ -197,8 +282,20 @@
                 let splitid = id.split("_");
 
                 //IDS
-                let prodId = splitid[1];
-                let userId = <?php echo $user["userId"]?>;
+                let status = splitid[1]; 
+                let prodId = splitid[2];
+                let userId = <?php 
+                                if(empty($user["userId"]))
+                                {
+                                    echo '""';
+                                }
+                                else
+                                {
+                                    echo $user["userId"];
+                                }
+                             ?>;
+
+                $(el).attr("src", "../ShopozoPics/loading-anim.gif");
 
                 //AJAX REQUEST
                 $.ajax(
@@ -211,11 +308,18 @@
                         if(response == 1)
                         {
                             //CHANGE ICON
-                            if($(el).attr("src") == "Shopozo/ShopozoPics/pressed-watch-eye.svg")
-                            {
 
+                            //CHANGE ICON
+                            if(status == "RMV")
+                            {
+                                $(el).attr("src", "../ShopozoPics/watch-eye.svg");
+                                $(el).attr("id", "PRD_ADD_"+prodId);
                             }
-                            $(el).attr("src", "../ShopozoPics/pressed-watch-eye.svg");
+                            else if(status == "ADD")
+                            {
+                                $(el).attr("src", "../ShopozoPics/pressed-watch-eye.svg");
+                                $(el).attr("id", "PRD_RMV_"+prodId);
+                            }
                         }
                         else
                         {
