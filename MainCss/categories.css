@@ -19,7 +19,12 @@
 }
 
 .sub-categ-container ul li a{
-    color: black;
+    color: #6EBE47;
+    text-decoration: none;
+}
+
+.sub-categ-container ul li a:visited{
+    color: #82187c;
     text-decoration: none;
 }
 
@@ -142,6 +147,9 @@
     .product-name{
         font-size: 0.95rem;
     }
+    .shop-by-categories-btn{
+        display: inline-block;
+    }
     .product-discount-price{
         font-size: 0.95rem;
     }
@@ -160,9 +168,6 @@
 @media (max-width: 768px) {
     .sub-categ-container{
         display: none;
-    }
-    .shop-by-categories-btn{
-        display: inline-block;
     }
     .product-img{
         max-width: 100px;

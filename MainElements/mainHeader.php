@@ -49,6 +49,7 @@
     <link rel="stylesheet" href="../MainCss/carousel.css">
     <link rel="stylesheet" href="../MainCss/categories.css">
     <link rel="stylesheet" href="../MainCss/mainFooter.css">
+    <link rel="stylesheet" href="../MainCss/searchResult.css">
 
     <!-- CAROUSEL -->
     <link rel="stylesheet" type="text/css" href="../slick/slick.css"/>

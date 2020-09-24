@@ -1,0 +1,22 @@
+.filter-and-products-container{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.filter-container{
+    width: 205px;
+    border-right: 1px solid #9E9E9E;
+}
+
+.filter-tiltle{
+    margin-bottom: 20px;
+}
+
+.filter-option{
+    margin-bottom: 10px;
+}
+
+.filter-name{
+    margin-bottom: 5px;
+}
