@@ -141,14 +141,19 @@
      
      <form method="POST" action="searchResult.php" class="mobile-search-bar-container mobile">
         <div class="mobile-search-wrapper">
-            <input class="mobile-search-input" type="text" name="userSearch" placeholder="Search for anything">
+            <input class="mobile-search-input" type="text" name="userSearch" placeholder="Search for anything" <?php
+                                                                                                                    if(isset($_GET["userSearch"]))
+                                                                                                                    {
+                                                                                                                        echo 'value="'.$_GET["userSearch"].'"';
+                                                                                                                    }
+                                                                                                                ?>>
         </div>
         <input type="submit" class="mobile-search-btn" value="">
      </form>
 
     <!-- Normal header -->
 
-    <form method="POST" action="searchResult.php" class="search-bar-container others">
+    <form method="GET" action="searchResult.php" class="search-bar-container others">
         <img class="logo-img" src="../ShopozoPics/shopozo-logo.png" alt="Shopozo" onclick="redirect('HOM')">
         <span class="search-bar">
             <span class="search-bar-input">
@@ -158,7 +163,7 @@
             <span class="categories-combo-box-container">
                 <select class="combo-box" name="subCategId" id="categ">
                     <?php
-                        echo '<option value=""> All Categories';
+                        echo '<option value="-1"> All Categories';
 
                         while($resAllCateg = mysqli_fetch_assoc($queryAllCateg))
                         {

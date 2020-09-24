@@ -10,13 +10,28 @@
 }
 
 .filter-tiltle{
-    margin-bottom: 20px;
+    margin: 20px 0 20px 0;
 }
 
 .filter-option{
     margin-bottom: 10px;
 }
 
+.filter-option input{
+    width: 150px;
+}
+
 .filter-name{
     margin-bottom: 5px;
+}
+
+.filter-btn{
+    border: none;
+    background-color: #118706;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 5% 10px 5%;
+    cursor: pointer;
+    width: 150px;
+    margin-top: 20px;
 }
