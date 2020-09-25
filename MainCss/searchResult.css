@@ -25,7 +25,20 @@
     margin-bottom: 5px;
 }
 
+.mobile-filer-btn{
+    display: none;
+    border: none;
+    background-color: #118706;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 5% 10px 5%;
+    cursor: pointer;
+    width: 150px;
+    margin-right: 20%;
+}
+
 .filter-btn{
+    
     border: none;
     background-color: #118706;
     color: white;
@@ -34,4 +47,27 @@
     cursor: pointer;
     width: 150px;
     margin-top: 20px;
+}
+
+.empty-msg{
+    font-size: 1.5rem;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 200;
+}
+
+@media (max-width: 500px) {
+
+    .sub-categ-title{
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .filter-container{
+        display: none;
+    }
+    .mobile-filer-btn{
+        display: inline-block;
+    }
 }

@@ -7,6 +7,7 @@ if(!isset($_GET["userSearch"]))
     }
 
     $title = $_GET["userSearch"]." | Shopozo";
+    $emptyMsg = "Nothing Found. Sorry, but no results were found in our database.";
 
     include_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/MainElements/mainHeader.php");
 
@@ -57,31 +58,41 @@ if(!isset($_GET["userSearch"]))
 
     if(isset($_POST["fops"]))
     {
-        $specNbr = 0;
+        $specNbr = $emptyFOP = 0; 
         while($resFetchSpecs = mysqli_fetch_assoc($queryFetchSpecs))
         {
             ${"FOP$specNbr"} = (isset($_POST["fop_".$resFetchSpecs["name"]]) && !empty($_POST["fop_".$resFetchSpecs["name"]])) ?
                                  'productSpecs.specId = '.$resFetchSpecs["id"].' AND productSpecs.value LIKE "%'.mysqli_real_escape_string($dbConx, $_POST["fop_".$resFetchSpecs["name"]]).'%"'  :
                                  'true';
+            if(empty($_POST["fop_".$resFetchSpecs["name"]]))
+            {
+                $emptyFOP += 1;
+            }
             $specNbr += 1;
         }
 
-        $sqlFetchProdFOP = 'SELECT products.* 
-                            FROM ('.$sqlFetchProds.') AS products 
-                            JOIN productSpecs 
-                            ON products.id = productSpecs.productId
-                            WHERE ';
+        if($emptyFOP != $specNbr)
+        {    
+            $sqlFetchProdFOP = 'SELECT products.* 
+                                FROM ('.$sqlFetchProds.') AS products 
+                                JOIN productSpecs 
+                                ON products.id = productSpecs.productId
+                                WHERE ';
 
-        for($i = 0; $i < $specNbr; $i++)
-        {
-            $sqlFetchProdFOP .= ${"FOP$i"};
-            if($i != $specNbr -1)
+            for($i = 0; $i < $specNbr; $i++)
             {
-                $sqlFetchProdFOP .= ' AND ';
+                $sqlFetchProdFOP .= ${"FOP$i"};
+                if($i != $specNbr -1)
+                {
+                    $sqlFetchProdFOP .= ' AND ';
+                }
             }
+            $queryFetchProds = mysqli_query($dbConx, $sqlFetchProdFOP);
         }
-
-        $queryFetchProds = mysqli_query($dbConx, $sqlFetchProdFOP);
+        else
+        {
+            $queryFetchProds = mysqli_query($dbConx, $sqlFetchProds);
+        }
     }
     else
     {
@@ -112,6 +123,24 @@ if(!isset($_GET["userSearch"]))
     }
 
     ?>
+
+<!-- WORK ON THE BELLOW FILTER NAV!! -->
+
+<div id="filterNav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeFilterNav()">&times;</a>
+        <span>Filter Options</span>
+                    
+        <?php
+            while($resFetchSubCateg = mysqli_fetch_assoc($queryFetchSubCateg))
+            {
+                echo '<a href="../MainPhp/categories.php?categId='.$resFetchSubCateg["categoryId"].'&subCategId='.$resFetchSubCateg["id"].'">'.$resFetchSubCateg["name"].'</a>';
+            }
+        ?>
+        <a href="../MainPhp/categories.php?categId=<?php echo $categId?>&subCategId=-1">All Categories</a>
+    </div>
+
+<!-- WORK ON THE ABOVE FILTER NAV!! -->
+    
 <div class="filter-and-products-container">
     <form method="POST" action="<?php echo $_SERVER["PHP_SELF"].'?userSearch='.$userSearch.'&subCategId='.$subCategId?>" class="filter-container">
         <h2 class="filter-tiltle">Filter Options</h2>
@@ -124,17 +153,28 @@ if(!isset($_GET["userSearch"]))
                 {
                     break;
                 }
+
+                $value = "";
+
+                if(isset($_POST['fop_'.$resFetchSpecs["name"]]))
+                {
+                    $value = mysqli_real_escape_string($dbConx, $_POST['fop_'.$resFetchSpecs["name"]]);
+                }
                 echo '<div class="filter-option">
                         <p class="filter-name">'.$resFetchSpecs["name"].'</p>
-                        <input type="text" name="fop_'.$resFetchSpecs["name"].'">
+                        <input type="text" name="fop_'.$resFetchSpecs["name"].'" value="'.$value.'">
                       </div>';
             }
         ?>
         <input class="filter-btn " type="submit" name="fops" value="Filter">
         
     </form>
+
     <div class="products-container">
-        <span class="sub-categ-title">Product List</span>
+        <div>
+            <button class="mobile-filer-btn" onclick="openFilterNav()">Filter Options</button>
+            <span class="sub-categ-title">Product List</span>
+        </div>
 
         <?php
                 while($resFetchProducts = mysqli_fetch_assoc($queryFetchProds))
@@ -192,6 +232,11 @@ if(!isset($_GET["userSearch"]))
                             }
 
                     echo '</div>';
+                }
+
+                if(mysqli_num_rows($queryFetchProds) == 0)
+                {
+                    echo '<div class="empty-msg">'.$emptyMsg.'</div>';
                 }
             ?>
 

@@ -147,9 +147,6 @@
     .product-name{
         font-size: 0.95rem;
     }
-    .shop-by-categories-btn{
-        display: inline-block;
-    }
     .product-discount-price{
         font-size: 0.95rem;
     }
@@ -174,5 +171,8 @@
     }
     .product-img-container{
         height: 100%;
+    }
+    .shop-by-categories-btn{
+        display: inline-block;
     }
 }

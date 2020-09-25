@@ -90,7 +90,7 @@
     
 ?>
 
-<div id="subCategNav" class="sidenav mobile">
+<div id="subCategNav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeSubCatgegNav()">&times;</a>
         <span>Cartegories</span>
                     
