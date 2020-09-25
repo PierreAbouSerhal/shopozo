@@ -158,16 +158,29 @@
         <span class="search-bar">
             <span class="search-bar-input">
                 <span class="search-icon"></span>
-                <input type="text" name="userSearch" placeholder="Search for anything">
+                <input type="text" name="userSearch" placeholder="Search for anything" <?php
+                                                                                            if(isset($_GET["userSearch"]))
+                                                                                            {
+                                                                                                echo 'value="'.$_GET["userSearch"].'"';
+                                                                                            }
+                                                                                        ?>>
             </span>
             <span class="categories-combo-box-container">
                 <select class="combo-box" name="subCategId" id="categ">
                     <?php
                         echo '<option value="-1"> All Categories';
 
+                        $subId = "";
+                        
+                        if(isset($_GET["subCategId"]))
+                        {
+                            $subId = $_GET["subCategId"];
+                        }
+
                         while($resAllCateg = mysqli_fetch_assoc($queryAllCateg))
                         {
-                            echo '<option value="'.$resAllCateg["id"].'">'.$resAllCateg["name"].'</option>';
+                            $selected = ($subId == $resAllCateg["id"]) ? "selected" : "";
+                            echo '<option value="'.$resAllCateg["id"].'" '.$selected.'>'.$resAllCateg["name"].'</option>';
                         }
                         mysqli_free_result($queryAllCateg);
                     ?>
