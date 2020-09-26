@@ -1,6 +1,6 @@
 <?php
 
-if(!isset($_GET["userSearch"]))
+if(!isset($_GET["userSearch"]) || empty($_GET["userSearch"]))
     {
         header("Location: index.php");
         exit();
@@ -14,18 +14,18 @@ if(!isset($_GET["userSearch"]))
     $userSearch = (isset($_GET["userSearch"])) ? mysqli_real_escape_string($dbConx, $_GET["userSearch"]) : "";
     $subCategId = (isset($_GET["subCategId"])) ? mysqli_real_escape_string($dbConx, $_GET["subCategId"]) : "";
 
-        $sqlFetchProds = 'SELECT products.*,
-                                 productPics.picture
-                          FROM (    
-                                    SELECT products.*,
-                                           brands.name AS brandName
-                                    FROM products
-                                    JOIN brands 
-                                    ON brands.id = products.brandId
-                                )AS products
-                          JOIN productPics 
-                          ON productPics.productId = products.id
-                          WHERE (products.name LIKE "%'.$userSearch.'%" OR products.brandName LIKE "%'.$userSearch.'%") AND productPics.isPrimary = 1';
+    $sqlFetchProds = 'SELECT products.*,
+                                productPics.picture
+                        FROM (    
+                                SELECT products.*,
+                                        brands.name AS brandName
+                                FROM products
+                                JOIN brands 
+                                ON brands.id = products.brandId
+                            )AS products
+                        JOIN productPics 
+                        ON productPics.productId = products.id
+                        WHERE (products.name LIKE "%'.$userSearch.'%" OR products.brandName LIKE "%'.$userSearch.'%") AND productPics.isPrimary = 1';
     
     if(!empty($subCategId) && $subCategId > 0)
     {
@@ -124,22 +124,28 @@ if(!isset($_GET["userSearch"]))
 
     ?>
 
-<!-- WORK ON THE BELLOW FILTER NAV!! -->
-
-<div id="filterNav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeFilterNav()">&times;</a>
-        <span>Filter Options</span>
-                    
-        <?php
-            while($resFetchSubCateg = mysqli_fetch_assoc($queryFetchSubCateg))
+<form id="filterNav" class="filter-sidenav" method="POST" action="<?php echo $_SERVER["PHP_SELF"].'?userSearch='.$userSearch.'&subCategId='.$subCategId?>">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeFilterNav()">&times;</a>
+    <p class="filter-title">Filter Options</p>
+                
+    <?php
+        mysqli_data_seek($queryFetchSpecs, 0);
+        while($resFetchSpecs = mysqli_fetch_assoc($queryFetchSpecs))
+        {
+            $value = "";
+            if(isset($_POST['fop_'.$resFetchSpecs["name"]]))
             {
-                echo '<a href="../MainPhp/categories.php?categId='.$resFetchSubCateg["categoryId"].'&subCategId='.$resFetchSubCateg["id"].'">'.$resFetchSubCateg["name"].'</a>';
+                $value = mysqli_real_escape_string($dbConx, $_POST['fop_'.$resFetchSpecs["name"]]);
             }
-        ?>
-        <a href="../MainPhp/categories.php?categId=<?php echo $categId?>&subCategId=-1">All Categories</a>
-    </div>
-
-<!-- WORK ON THE ABOVE FILTER NAV!! -->
+            echo '<div class="filter-option">
+                    <p class="filter-name">'.$resFetchSpecs["name"].'</p>
+                    <input type="text" name="fop_'.$resFetchSpecs["name"].'" value="'.$value.'">
+                  </div>';
+        }
+    ?>
+    <input class="filter-mobile-btn" type="submit" name="fops" value="Filter" onclick="openFilterNav();">
+    
+</form>
     
 <div class="filter-and-products-container">
     <form method="POST" action="<?php echo $_SERVER["PHP_SELF"].'?userSearch='.$userSearch.'&subCategId='.$subCategId?>" class="filter-container">
@@ -162,7 +168,7 @@ if(!isset($_GET["userSearch"]))
                 }
                 echo '<div class="filter-option">
                         <p class="filter-name">'.$resFetchSpecs["name"].'</p>
-                        <input type="text" name="fop_'.$resFetchSpecs["name"].'" value="'.$value.'">
+                        <input class="filter-input" type="text" name="fop_'.$resFetchSpecs["name"].'" value="'.$value.'">
                       </div>';
             }
         ?>
@@ -242,3 +248,7 @@ if(!isset($_GET["userSearch"]))
 
     </div>
 </div>
+
+<?php
+    include_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/MainElements/mainFooter.html");
+?>

@@ -49,11 +49,27 @@
     margin-top: 20px;
 }
 
+.filter-mobile-btn{
+    border: none;
+    background-color: white;
+    color: #118706;
+    border-radius: 10px;
+    padding: 10px 5% 10px 5%;
+    cursor: pointer;
+    width: 150px;
+    margin: 20px 8px 8px 32px;
+
+}
+
 .empty-msg{
     font-size: 1.5rem;
     margin-top: 20px;
     text-align: center;
     font-weight: 200;
+}
+
+.filter-input{
+    padding: 3px;
 }
 
 @media (max-width: 500px) {

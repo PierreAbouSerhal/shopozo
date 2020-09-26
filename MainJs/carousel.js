@@ -70,3 +70,14 @@ $('.carousel').slick({
     ]
   });
   
+  $('.carousel-product-auto').slick({
+    dots: true,
+    speed: 300,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    infinite: true,
+    arrows: true,
+    autoplaySpeed: 2000,
+  });
+  

@@ -50,6 +50,7 @@
     <link rel="stylesheet" href="../MainCss/categories.css">
     <link rel="stylesheet" href="../MainCss/mainFooter.css">
     <link rel="stylesheet" href="../MainCss/searchResult.css">
+    <link rel="stylesheet" href="../MainCss/prodDetails.css">
 
     <!-- CAROUSEL -->
     <link rel="stylesheet" type="text/css" href="../slick/slick.css"/>
@@ -139,7 +140,7 @@
         </div>
      </div>
      
-     <form method="POST" action="searchResult.php" class="mobile-search-bar-container mobile">
+     <form method="GET" action="searchResult.php" class="mobile-search-bar-container mobile">
         <div class="mobile-search-wrapper">
             <input class="mobile-search-input" type="text" name="userSearch" placeholder="Search for anything" <?php
                                                                                                                     if(isset($_GET["userSearch"]))

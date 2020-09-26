@@ -105,6 +105,18 @@
     color: rgb(126, 126, 126);
 }
 
+.carousel-product-img-container{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 500px !important;
+}
+
+.carousel-products-img{
+    max-width: 500px;
+    max-height: 500px;
+}
+
 @media screen and (max-width: 1200px){
     .carousel-item-img{
         width: 160px;
