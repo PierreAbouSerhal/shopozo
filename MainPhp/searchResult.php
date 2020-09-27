@@ -25,7 +25,7 @@ if(!isset($_GET["userSearch"]) || empty($_GET["userSearch"]))
                             )AS products
                         JOIN productPics 
                         ON productPics.productId = products.id
-                        WHERE (products.name LIKE "%'.$userSearch.'%" OR products.brandName LIKE "%'.$userSearch.'%") AND productPics.isPrimary = 1';
+                        WHERE (products.name LIKE "%'.$userSearch.'%" OR products.brandName LIKE "%'.$userSearch.'%") AND productPics.isPrimary = 1 AND products.stock > 0';
     
     if(!empty($subCategId) && $subCategId > 0)
     {

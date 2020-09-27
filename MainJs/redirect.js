@@ -15,3 +15,8 @@ function prodDetails(prodId)
 {
     window.location.href = "https://localhost/Shopozo/MainPhp/prodDetails.php?prodId="+prodId;
 }
+
+function checkOutOneProd(prodId){
+    qty = document.getElementById("prodQty").value;
+    window.location.href = "https://localhost/Shopozo/MainPhp/checkOut.php?prodId="+prodId+"&qty="+qty;
+}

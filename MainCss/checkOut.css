@@ -1,0 +1,117 @@
+.title-container{
+    display: flex;
+    align-items: center;
+}
+
+.checkout-header{
+    margin-top: 20px;
+}
+
+.payment-container{
+    padding: 10px;
+    border: solid 1px #9E9E9E;
+}
+
+.payment-type{
+    margin-top: 20px;
+}
+
+.user-info{
+    margin-top: 20px;
+    padding: 10px;
+    border: solid 1px #9E9E9E;
+}
+
+.review-item-container{
+    margin-top: 20px;
+    padding: 10px;
+    border: solid 1px #9E9E9E;
+}
+
+.item-pic-and-info-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.img-primary-pic{
+    max-width: 96px;
+    max-height: 96px;
+}
+
+.item-info{
+    margin-left: 50px;    
+}
+
+.review-item-title{
+    margin-bottom: 20px;
+}
+
+.item-qty-container{
+    margin-bottom: 10px;
+}
+
+.item-cond{
+    color: #6d6d6d;
+}
+
+.delvery-time{
+    color: #6d6d6d;
+}
+
+.item-info p, div{
+    padding: 5px;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.left-column{
+    width: 70%;
+}
+
+.right-column{
+    width: 30%;
+    border: 1px solid #9E9E9E;
+}
+
+.item-img{
+    width: 96px;
+    height: 96px;
+}
+
+.bottom-border{
+    width: 100%;
+    border-bottom:1px solid #9E9E9E;
+}
+
+.order-total-container{
+    margin-top: 20px;
+}
+
+.confirm-btn{
+    background:#118706;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    padding: 10px 5px 10px 5px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+@media (max-width: 615px){
+    .main-container{
+        flex-direction: column;
+    }
+
+    .right-column{
+        width: 100%;
+    }
+
+    .left-column{
+        width: 100%;
+    }
+}
