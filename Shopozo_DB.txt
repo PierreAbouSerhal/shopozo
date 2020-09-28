@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2020 at 02:45 PM
+-- Generation Time: Sep 29, 2020 at 12:12 AM
 -- Server version: 5.7.17
 -- PHP Version: 7.1.3
 
@@ -356,8 +356,12 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `userId`, `total`, `creationDate`, `isCanceled`) VALUES
-(8, 1, '799.20', '2020-09-28', 0),
-(9, 1, '2997.20', '2020-09-28', 0);
+(8, 1, '799.20', '2020-09-29', 1),
+(9, 1, '2997.20', '2020-09-28', 0),
+(10, 1, '799.20', '2020-09-28', 0),
+(11, 1, '1598.40', '2020-09-28', 1),
+(12, 1, '2397.60', '2020-09-28', 1),
+(13, 1, '1598.40', '2020-09-28', 1);
 
 -- --------------------------------------------------------
 
@@ -380,7 +384,11 @@ CREATE TABLE `ordersdetails` (
 INSERT INTO `ordersdetails` (`orderId`, `productId`, `productPrice`, `qty`, `lineTotal`) VALUES
 (8, 3, '0.00', 1, '799.2000'),
 (9, 3, '0.00', 1, '799.2000'),
-(9, 4, '0.00', 2, '2198.0000');
+(9, 4, '0.00', 2, '2198.0000'),
+(10, 3, '799.20', 1, '799.2000'),
+(11, 3, '799.20', 2, '1598.4000'),
+(12, 3, '799.20', 3, '2397.6000'),
+(13, 3, '799.20', 2, '1598.4000');
 
 -- --------------------------------------------------------
 
@@ -438,7 +446,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `subCategId`, `brandId`, `name`, `price`, `discount`, `stock`, `descr`, `prodCond`, `shipTime`, `modifDate`, `totalViews`, `totalSold`, `totalWatchers`) VALUES
-(3, 1, 1, 'Iphone X 64GB', '999.00', 20, 16, '5.8-inch OLED display, facial recognition and 3D camera functionality, a glass body, and an A11 Bionic processor', 'New', 2, '2020-09-21', 0, 0, 1),
+(3, 1, 1, 'Iphone X 64GB', '999.00', 20, 10, '5.8-inch OLED display, facial recognition and 3D camera functionality, a glass body, and an A11 Bionic processor', 'New', 2, '2020-09-21', 0, 0, 1),
 (4, 1, 1, 'Iphone 11 64GB', '1099.00', NULL, 13, '6.1-inch LCD display \"Liquid Retina HD Display.\" It features a 1792 x 828 resolution at 326ppi, a 1400:1 contrast ratio, 625 nits max brightness, True Tone support for adjusting the white balance to the ambient lighting, and wide color support', 'New', 2, '2020-09-21', 0, 0, 0),
 (5, 2, 2, 'Samsung Galaxy S10 128GB', '749.99', NULL, 40, 'powered by Octa core (2.73 GHz, Dual core, M4 Mongoose + 2.31 GHz, Dual core, Cortex A75 + 1.95 GHz, Quad core, Cortex A55) processor. It runs on the Samsung Exynos 9 Octa 9820 Chipset. It has 8 GB RAM and 128 GB internal storage. Samsung Galaxy S10 smartphone has a Dynamic AMOLED display.\r\nRam: 8 GB', 'New', 3, '2020-09-21', 0, 0, 0),
 (6, 2, 2, 'Samsung Galaxy S11 512GB', '1299.00', NULL, 6, 'runs on Android v10 (Q) operating system. The phone is powered by Octa core (2.73 GHz, Dual core + 2.31 GHz, Dual core, Cortex A75 + 1.95 GHz, Quad core, Cortex A55) processor. It runs on the Samsung Exynos 9 Octa 990 Chipset. It has 8 GB RAM and 256 GB internal storage.\r\nRam: 8 GB\r\n\r\n', 'New', 3, '2020-09-21', 0, 0, 0),
@@ -692,7 +700,7 @@ CREATE TABLE `usertokens` (
 --
 
 INSERT INTO `usertokens` (`userId`, `hashedToken`, `creationDate`, `creationTime`) VALUES
-(1, '4569b1d9d95b42aa2313731e7a4ff2f7bc1d8b03cb07758052324a55e2a6c949', '2020-09-28', '10:08:36');
+(1, '6fc8e12c416a20db8de6e6b44ac690ec3cde3709a4befd9c60b0bcbc65b651da', '2020-09-28', '16:44:09');
 
 -- --------------------------------------------------------
 
@@ -862,7 +870,7 @@ ALTER TABLE `countrys`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `products`
 --
