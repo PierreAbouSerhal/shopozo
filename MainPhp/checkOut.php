@@ -1,5 +1,9 @@
 <?php
     include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/PhpUtils/checkLoginStatus.php");
+
+    require_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/HtConfig/mailConfig.php");
+    require_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/PhpUtils/mailSetup.php");
+
     $isSignin = $canBuy = $oneProd = true;
 
     if(!$user["userOk"])
@@ -13,7 +17,7 @@
         $oneProd = false;
     }
 
-    $sqlFetchProdDet = "";
+    $sqlFetchProdDet = $prodQty = $prodId = "";
 
     if($oneProd)
     {
@@ -22,7 +26,7 @@
 
         $sqlFetchProdDet = 'SELECT products.*,
                                    COUNT(*) AS rowNbr,
-                                   productPics.picture   
+                                   productPics.picture
                             FROM products
                             JOIN productPics
                             ON products.id = productPics.productId 
@@ -52,13 +56,123 @@
 
     if(isset($_POST["confirmPay"]))
     {
+        $totalOrder = $orderId = 0;
+        
+        $emailTableRows = "";
+        
+        $sqlInsertOrder = 'INSERT INTO orders (userId, total, creationDate) 
+                                      VALUES ('.$user["userId"].', '.$totalOrder.', CURDATE())';
+                    
+        $queryInsertOrder = mysqli_query($dbConx, $sqlInsertOrder);
+
+        if($queryInsertOrder)
+        {
+            $orderId = mysqli_insert_id($dbConx);
+        }
+
         while($resFetchProdDet = mysqli_fetch_assoc($queryFetchProdDet))
         {
-            $prodId = $resFetchProdDet["id"];
+            if($orderId == 0)
+            {
+                break;
+            }
 
+            $prodId = $resFetchProdDet["id"];
+            $prodName = $resFetchProdDet["name"];
+            $prodStock = $resFetchProdDet["stock"];
             $prodQty = mysqli_real_escape_string($dbConx, $_POST["itemQty_".$prodId]);
             
-            
+            $prodPrice = $resFetchProdDet["price"] - ($resFetchProdDet["price"] * ($resFetchProdDet["discount"] / 100));
+            $prodTot   = $prodPrice * $prodQty;
+            $totalOrder += $prodTot;
+                
+            $sqlInsertOrderDetails = 'INSERT INTO ordersDetails  (orderId, productId, productPrice, qty, lineTotal)
+                                        VALUES ('.$orderId.', '.$prodId.', '.$prodPrice.', '.$prodQty.', '.$prodTot.')';
+                    
+            $queryInsertOrderDetails = mysqli_query($dbConx, $sqlInsertOrderDetails);
+
+            if($queryInsertOrderDetails && ($prodStock - $prodQty >= 0))
+            {
+                $sqlUpdateStock = 'UPDATE products SET stock = stock - '.$prodQty.' WHERE id = '.$prodId;
+
+                $queryUpdateStock = mysqli_query($dbConx, $sqlUpdateStock);
+            }
+
+            $emailTableRows .= "<tr>
+                                    <td>".$prodName."</td>
+                                    <td>".$prodPrice."$</td>
+                                    <td style=\"text-align:center;\">".$prodQty."</td>
+                                    <td>".$prodTot."$</td>
+                                </tr>";
+        }
+
+        if($orderId != 0)
+        {
+            $sqlUpdateOrder   = 'UPDATE orders SET total = '.$totalOrder.' WHERE id = '.$orderId;
+
+            $queryUpdateOrder = mysqli_query($dbConx, $sqlUpdateOrder);
+
+            if($queryUpdateOrder && $orderId != 0)
+            {
+
+                $sqlFetchCountry = 'SELECT name FROM countrys WHERE id = '.$userCountry;
+
+                $queryFetchCountry = mysqli_query($dbConx, $sqlFetchCountry);
+
+                $resFetchCountry = mysqli_fetch_assoc($queryFetchCountry);
+
+                $subject = "Your Order Confirmation";
+
+                $html = '<html><body>
+                <p><strong>Thank you for your purchase from shoppozo</strong></p>
+                <p>Order Number: <strong>'.$orderId.'</strong></p>
+                <p>Order Date: <strong>'.date("Y/m/d").'</strong></p>
+                <br>
+                <h2>SHIPPING TO: '.$userName.'</h2>
+                <br>
+                <p>'.$resFetchCountry["name"].'</p>
+                <p>'.$userProvince.'</p>
+                <p>'.$userCity.'</p>
+                <p>'.$userStreet.' '.$userPostCode.'</p>
+                <p>'.$userPhone.'</p>
+                <br>
+                <h2>ORDER SUMMARY</h2>
+                <table cellpadding=10 style="border-collapse:collapse; table-layout:fixed;width=100%">
+                    <tr>
+                        <th><strong>ITEM</strong></th>
+                        <th><strong>PRICE</strong></th>
+                        <th><strong>QTY</strong></th>
+                        <th><strong>TOTAL</strong></th>
+                    </tr>
+
+                    '.$emailTableRows.'
+                    <tr>
+                        <td></td>
+                        <td colspan="2"><strong>Order Total:</strong></td>
+                        <td><strong>'.$totalOrder.'$</strong></td>
+                    </tr>
+                </table>
+                <p>Please note that you can cancel your order only in the next 24h!</p>
+                <p>Shopozo Support</p>
+                </body></html>';
+
+                $from = array("name" => "Shopozo", "email" => $smtp["username"]);
+
+                $to = array(
+                    array(
+                        "name" => $userFname.' '.$userLname,
+                        "email" => $userEmail
+                    )
+                );
+
+                //SEND THE MAIL
+                $jmomailer = new JMOMailer(true, $smtp);
+                        
+                $jmomailer->mail($to, $subject, $html, $from);
+                
+                header("Location: orders.php?orderId=".$orderId);
+                exit();
+            }
         }
     }
 
@@ -69,6 +183,8 @@
 <link rel="stylesheet" href="../MainCss/checkOut.css">
 <link rel="stylesheet" href="../MainCss/mainFooter.css">
 
+<script src="../MainJs/redirect.js"></script>
+
 </head>
 <body>
 <div class="container">
@@ -77,7 +193,13 @@
         <h2 class="checkout-header">Checkout</h2>
     </div>
 
-    <form class="main-container" method="POST" action="<?php echo $_SERVER["PHP_SELF"]?>">
+    <form class="main-container" method="POST" action="<?php   
+                                                            $phpSelf = $_SERVER["PHP_SELF"];
+                                                            if($oneProd)
+                                                            {
+                                                                $phpSelf .= "?prodId=".$prodId."&qty=".$prodQty;
+                                                            }
+                                                        echo $phpSelf?>">
 
     <?php 
         $itemCnt = $orderTotal = 0;
@@ -206,6 +328,47 @@
             </div>
                 ';
         }
+        else if(!$isSignin)
+        {
+            $msg = "Please Sign in with your account to be able to buy products from our website";
+
+            echo '<div class="left-column">
+                    <div class="error-msg-container">
+                        <img class="warning-img" src="../ShopozoPics/Warning.svg">
+                        <p class="error-msg">'.$msg.'</p>
+                        <div class="links">
+                            <ul class="ul-links">
+                                <li>
+                                    <span>Have an account? </span><a href="signin.php">Signin</a>
+                                </li>
+                                <li>
+                                    <span>Don\'t have an account? </span><a href="register.php">Register</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                 </div>
+                ';
+        }
+        else if(!$canBuy)
+        {
+            $msg = "Some of your Address/Contact informations are empty";
+
+            echo '<div class="left-column">
+                    <div class="error-msg-container">
+                        <img class="warning-img" src="../ShopozoPics/Warning.svg">
+                        <p class="error-msg">'.$msg.'</p>
+                        <div class="links">
+                            <ul class="ul-links">
+                                <li>
+                                    <span>Update your personal information here </span><a href="profile.php">Update Profile</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                 </div>';
+        }
+
     ?>
     </form>
 </div>
