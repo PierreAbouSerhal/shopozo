@@ -4,12 +4,11 @@
     require_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/HtConfig/mailConfig.php");
     require_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/PhpUtils/mailSetup.php");
 
-    $isSignin = $canBuy = $oneProd = true;
+     $canBuy = $oneProd = true;
 
     if(!$user["userOk"])
     {
         logout();
-        $isSignin = false;
     }
 
     if(!isset($_GET["prodId"]) && !isset($_GET["qty"]))
@@ -204,7 +203,7 @@
     <?php 
         $itemCnt = $orderTotal = 0;
 
-        if($isSignin && $canBuy)
+        if($user["userOk"] && $canBuy)
         {   
             $sqlFetchCountry = 'SELECT name FROM countrys WHERE id = '.$userCountry;
 
@@ -328,7 +327,7 @@
             </div>
                 ';
         }
-        else if(!$isSignin)
+        else if(!$user["userOk"])
         {
             $msg = "Please Sign in with your account to be able to buy products from our website";
 

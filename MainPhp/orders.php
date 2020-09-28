@@ -1,9 +1,6 @@
 <?php
     include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/PhpUtils/checkLoginStatus.php");
-
-    require_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/HtConfig/mailConfig.php");
-    require_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/PhpUtils/mailSetup.php");
-
+   
     if(!$user["userOk"] || !isset($_GET["orderId"]))
     {
         header("Location: index.php");
@@ -14,7 +11,7 @@
 
     if($orderId != -1)
     {
-        $sqlVerif = 'SELECT COUNT(*) AS rowNbr FROM orders WHERE id = '.$orderId;
+        $sqlVerif = 'SELECT COUNT(*) AS rowNbr FROM orders WHERE id = '.$orderId.' AND isCanceled = 0';
 
         $queryVerif = mysqli_query($dbConx, $sqlVerif);
 
@@ -27,22 +24,11 @@
         }
     }
 
-    $fop1 = ($orderId > 0) ? "WHERE orders.id = ".$orderId : "";
-    $fop2 = ($orderId > 0) ? "WHERE ordersDetails.orderId = ".$orderId : "";
+    $fop1 = ($orderId > 0) ? "WHERE orders.id = ".$orderId." AND orders.isCanceled = 0" : "WHERE orders.isCanceled = 0";
     
     $sqlFetchOrders = 'SELECT * FROM orders '.$fop1.' ORDER BY id';
 
     $queryFetchOrders = mysqli_query($dbConx, $sqlFetchOrders);
-
-    $sqlFetchOrderDet = 'SELECT ordersDetails.*,
-                                products.* 
-                        FROM ordersDetails
-                        JOIN products
-                        ON products.id = ordersDetails.productId
-                        '.$fop2.'
-                        ORDER BY ordersDetails.orderId';
-            
-    $queryFetchOrdersDet = mysqli_query($dbConx, $sqlFetchOrderDet);
 
     include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/MainElements/doctype.html");
 ?>
@@ -65,12 +51,13 @@
 
 <form class="main-container" method="POST" action="cancelOrders.php">
     <div class="left-column">
-    <?php
+    <?php   
 
         while($resFetchOrders = mysqli_fetch_assoc($queryFetchOrders))
         {
             $orderNum = $resFetchOrders["id"];
             $orderDate = $resFetchOrders["creationDate"];
+            $selectInput = (strtotime(date("y-m-d")) < (strtotime($resFetchOrders["creationDate"]. ' + 1 day'))) ? '<input class="select-order" type="checkbox" name="orders[]" value="'.$orderNum.'">' : '';
             
             echo '
                 <div class="order-container">
@@ -82,7 +69,7 @@
                         <h2 class="order-summary-title">
                             Order Summary
                         </h2>
-                        <input class="select-order" type="checkbox">
+                        '.$selectInput.'
                         <table class="order-table box-shadow" cellpadding=10 style="border-collapse:collapse; table-layout:fixed;width=100%">
                             <tr class="order-table-header">
                                 <th>ITEM</th>
@@ -91,16 +78,28 @@
                                 <th>TOTAL</th>
                             </tr>';
 
+            $sqlFetchOrderDet = 'SELECT ordersDetails.*,
+                                        products.* 
+                                FROM ordersDetails
+                                JOIN products
+                                ON products.id = ordersDetails.productId
+                                WHERE ordersDetails.orderId = '.$orderNum.'
+                                ORDER BY ordersDetails.orderId';
+        
+            $queryFetchOrdersDet = mysqli_query($dbConx, $sqlFetchOrderDet);
+
             $totalOrder = 0;
             $rowCnt = 1;
+
             while($resFetchOrdersDet = mysqli_fetch_assoc($queryFetchOrdersDet))
             {
-                $itemName = $resFetchOrdersDet["name"];
-                $itemPrice = $resFetchOrdersDet["productPrice"];
-                $itemQty   = $resFetchOrdersDet["qty"];
-                $lineTotal = $resFetchOrdersDet["lineTotal"];
+                $itemName   = $resFetchOrdersDet["name"];
+                $itemPrice  = $resFetchOrdersDet["productPrice"];
+                $itemQty    = $resFetchOrdersDet["qty"];
+                $lineTotal  = $resFetchOrdersDet["lineTotal"];
                 $totalOrder += $lineTotal;
                 $background = ($rowCnt % 2 == 0) ? "light-grey" : "";
+
                 echo '<tr class="item-details-row '.$background.'">
                         <td>'.$itemName.'</td>
                         <td>'.$itemPrice.'$</td>
@@ -125,7 +124,15 @@
     </div>
     <div class="right-column">
         <h2>Order cancelation<h2>
-        <span>Please Note that</span>
+        <ul class="ul-tips">
+            <li>
+                <span class="cancelation-tip">Please note that orders can only be canceled in the first 24h of their creation.</span>
+            </li>
+            <li>
+                <span class="cancelation-tip">Tick the check boxes to select your orders.</span>
+            </li>
+        </ul>
+        <input class="cancelation-btn" type="submit" name="cancel" value="Cancel Orders">
     </div>
 </form>
 

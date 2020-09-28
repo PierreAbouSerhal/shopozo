@@ -1,6 +1,4 @@
 <?php
-    //QUERY ALL CATEGORIES
-
     include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/PhpUtils/checkLoginStatus.php");
 
     if(!$user["userOk"])
@@ -51,6 +49,7 @@
     <link rel="stylesheet" href="../MainCss/mainFooter.css">
     <link rel="stylesheet" href="../MainCss/searchResult.css">
     <link rel="stylesheet" href="../MainCss/prodDetails.css">
+    <link rel="stylesheet" href="../MainCss/shoppingCart.css">
 
     <!-- CAROUSEL -->
     <link rel="stylesheet" type="text/css" href="../slick/slick.css"/>

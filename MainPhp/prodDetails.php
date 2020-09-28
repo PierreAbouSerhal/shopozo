@@ -166,7 +166,22 @@ if(!isset($_GET["prodId"]) || empty($_GET["prodId"]))
                 }
             ?>
             <button class="buy-now-btn product-detail-btn" onclick="checkOutOneProd(<?php echo $prodId?>)">By it Now</button>
-            <button class="Add-to-cart-btn product-detail-btn">Add To Cart</button>
+            <?php
+                $sqlIsInCart = 'SELECT COUNT(*) AS rowNbr FROM shoppingCarts WHERE userId = '.$user["userId"].' AND productId = '.$prodId;
+
+                $queryIsInCart = mysqli_query($dbConx, $sqlIsInCart);
+
+                $resIsInCart = mysqli_fetch_assoc($queryIsInCart);
+
+                if($resIsInCart["rowNbr"] == 0)
+                {
+                    echo '<button class="Add-to-cart-btn product-detail-btn" onclick="addToCart('.$prodId.');">Add To Cart</button>';
+                }
+                else
+                {
+                    echo '<span class="added-to-cart-link" style="font-size:0.9rem">Added to <a href="shoppingCart.php" style="color:#6EBE47">your cart</a></span>';
+                }
+            ?>
 
             <?php
                 if($user["userOk"])
