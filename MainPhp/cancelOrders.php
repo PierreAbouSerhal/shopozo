@@ -31,6 +31,8 @@
 
             $sqlCancelOrder = 'UPDATE orders SET isCanceled = 1 WHERE orders.id = '.mysqli_real_escape_string($dbConx, $orderId);
 
+            $sqlDeleteCart  = 'DELETE FROM shippingCarts WHERE userId = '.$user["userId"].' AND productId = '.$prodId;
+
             $queryUpdateStock = mysqli_query($dbConx, $sqlUpdateStock);
         }
 

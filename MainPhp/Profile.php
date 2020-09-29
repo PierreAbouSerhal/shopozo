@@ -99,7 +99,7 @@
         <a aria-current="page" class="profile-nav-item">Account</a>
     </li>
     <li class="profile-nav-item-container">
-        <a href="activity.php" class="profile-nav-item">Activity</a>
+        <a href="history.php" class="profile-nav-item">History</a>
     </li>
 </ul>
 
@@ -243,7 +243,6 @@
     
 </form>
 
-<!-- CLOSING THE CONTAINER, BODY, AND HTML TAGS -->    
-</div>
-</body>
-</html>
+<?php
+    include_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/MainElements/mainFooter.html");
+?>

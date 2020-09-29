@@ -50,6 +50,7 @@
     <link rel="stylesheet" href="../MainCss/searchResult.css">
     <link rel="stylesheet" href="../MainCss/prodDetails.css">
     <link rel="stylesheet" href="../MainCss/shoppingCart.css">
+    <link rel="stylesheet" href="../MainCss/savedWatch.css">
 
     <!-- CAROUSEL -->
     <link rel="stylesheet" type="text/css" href="../slick/slick.css"/>
@@ -94,8 +95,8 @@
                     {
                         echo '
                         <a href="../MainPhp/Profile.php">My Account</a>
-                        <a href="#">Watch List</a>
-                        <img class="cart-img" src="../ShopozoPics/shopping-cart.svg" style="margin-left: 10%;">      
+                        <a href="../MainPhp/watchList.php">Watch List</a>
+                        <img class="cart-img" src="../ShopozoPics/shopping-cart.svg" style="margin-left: 10%;" onclick="redirect(\'SHP\')">      
                         ';
                     }
                 ?>
@@ -128,13 +129,13 @@
                 if($user["userOk"])
                 {
                     echo '
-                        <img class="menu-img" src="../ShopozoPics/user.svg" alt="profile" onclick="redirect('.'\'ACC\''.');">
-                        <img class="menu-img" src="../ShopozoPics/watch-list.svg" alt="watch-list">
-                        <img class="menu-img" src="../ShopozoPics/shopping-cart.svg" alt="cart">
+                        <img class="menu-img" src="../ShopozoPics/user.svg" alt="profile" onclick="redirect(\'ACC\');">
+                        <img class="menu-img" src="../ShopozoPics/watch-list.svg" alt="watch-list" onclick="redirect(\'WAT\');">
+                        <img class="menu-img" src="../ShopozoPics/shopping-cart.svg" alt="cart" onclick="redirect(\'SHP\')">
                     ';
                 }
             ?>
-            <img class="menu-img" src="../ShopozoPics/emptyheart.svg" alt="saved">
+            <img class="menu-img" src="../ShopozoPics/emptyheart.svg" alt="saved" onclick="redirect('SAV');">
             <img class="menu-img" src="../ShopozoPics/hamberger.svg" alt="menu" onclick="openNav()">
         </div>
      </div>

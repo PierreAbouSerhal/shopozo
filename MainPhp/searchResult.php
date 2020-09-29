@@ -249,6 +249,121 @@ if(!isset($_GET["userSearch"]) || empty($_GET["userSearch"]))
     </div>
 </div>
 
+<script>
+        //ADD/REMOVE PRODUCT FROM SAVED 
+        $(document).ready(function()
+        {
+            //HEART-ICON 
+            $('.heart-circle-icon').click(function()
+            {
+                let el = this;
+                let id = this.id;
+                let splitid = id.split("_");
+
+                //IDS
+                let status = splitid[1]; 
+                let prodId = splitid[2];
+                let userId = <?php 
+                                if(empty($user["userId"]))
+                                {
+                                    echo '""';
+                                }
+                                else
+                                {
+                                    echo $user["userId"];
+                                }
+                             ?>;
+                $(el).attr("src", "../ShopozoPics/loading-anim.gif");
+
+                //AJAX REQUEST
+                $.ajax(
+                {
+                    url: 'updateSaved.php',
+                    type: 'POST',
+                    data: { prodId: prodId, userId: userId },
+                    success: function(response)
+                    {
+                        if(response == 1)
+                        {
+                            //CHANGE ICON
+                            if(status == "RMV")
+                            {
+                                $(el).attr("src", "../ShopozoPics/heart-circle.svg");
+                                $(el).attr("id", "PRD_ADD_"+prodId);
+                            }
+                            else if(status == "ADD")
+                            {
+                                $(el).attr("src", "../ShopozoPics/heart-circle-filled.svg");
+                                $(el).attr("id", "PRD_RMV_"+prodId);
+                            }
+                        }
+                        else
+                        {
+                            alert("Unable to update saved products");
+                        }
+                    }
+                });
+            });
+        });
+
+        //ADD/REMOVE PRODUCT FROM WATCHLIST 
+        $(document).ready(function()
+        {
+            //WATCH-ICON
+            $('.watch-icon').click(function()
+            {
+                let el = this;
+                let id = this.id;
+                let splitid = id.split("_");
+
+                //IDS
+                let status = splitid[1]; 
+                let prodId = splitid[2];
+                let userId = <?php 
+                                if(empty($user["userId"]))
+                                {
+                                    echo '""';
+                                }
+                                else
+                                {
+                                    echo $user["userId"];
+                                }
+                             ?>;
+
+                $(el).attr("src", "../ShopozoPics/loading-anim.gif");
+
+                //AJAX REQUEST
+                $.ajax(
+                {
+                    url: 'updateWishList.php',
+                    type: 'POST',
+                    data: { prodId: prodId, userId: userId },
+                    success: function(response)
+                    {
+                        if(response == 1)
+                        {
+                            //CHANGE ICON
+                            if(status == "RMV")
+                            {
+                                $(el).attr("src", "../ShopozoPics/watch-eye.svg");
+                                $(el).attr("id", "PRD_ADD_"+prodId);
+                            }
+                            else if(status == "ADD")
+                            {
+                                $(el).attr("src", "../ShopozoPics/pressed-watch-eye.svg");
+                                $(el).attr("id", "PRD_RMV_"+prodId);
+                            }
+                        }
+                        else
+                        {
+                            alert("Unable to update wish list");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
 <?php
     include_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/MainElements/mainFooter.html");
 ?>

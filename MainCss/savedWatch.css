@@ -1,0 +1,92 @@
+.saved-watch-main-container{
+    padding: 10px;
+    border: 1px solid #9E9E9E;
+    margin-top: 20px;
+}
+.saved-watch-prod-container{
+    position: relative;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-bottom: 1px solid #9E9E9E;
+
+}
+
+.saved-watch-img-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 150px;
+    min-height: 150px;
+}
+
+.saved-watch-prod-img{
+    max-width: 150px;
+    max-height: 150px;
+    cursor: pointer;
+}
+
+.saved-watch-prod-info{
+    width: 60%;
+    padding-left: 10px;
+}
+
+.saved-watch-prod-name{
+    display: block;
+    font-weight: 700;
+    text-decoration: underline;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.saved-watch-prod-descr{
+    text-align: justify;
+    text-justify: distribute;
+    color: #575757;
+    font-size: 0.9rem;
+}
+
+.saved-watch-delete-icon{
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.watch-total{
+    color: #6EBE47;
+    font-size: 0.8rem;
+    display: block;
+    margin: 5px 0 5px 0;
+}
+
+.hist-date-time{
+    margin-top: 10px;
+}
+
+.hist-date, .hist-time{
+    color: #9E9E9E;
+    font-size: 0.8rem;
+}
+
+.hist-date{
+    width: 50px;
+}
+
+@media (max-width: 500px){
+    .saved-watch-main-container{
+        padding: 10px 0 10px 0;
+    }
+    .saved-watch-prod-container{
+        padding: 10px 0 10px 0;
+    }
+    .saved-watch-delete-icon{
+        width: 20px;
+        height: 20px;
+        bottom: 0px;
+        right: 0px;
+    }
+}

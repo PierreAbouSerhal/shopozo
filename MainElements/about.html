@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style> 
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html{
+            height: 100%;
+        }
+
+        body{
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        button{
+            border: none;
+            background-color: #118706;
+            color: white;
+            border-radius: 10px;
+            padding: 10px 10px 10px 10px;
+            width: 100px;
+            cursor: pointer;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .about-title{
+            line-height: 20px;
+            text-align: justify;
+            text-justify: distribute;
+        }
+
+    </style> 
+
+    <link rel="stylesheet" href="../MainCss/mainHeader.css">
+    <link rel="stylesheet" href="../MainCss/sideNav.css">
+    <link rel="stylesheet" href="../MainCss/signinRegister.css">
+    <link rel="stylesheet" href="../MainCss/mainFooter.css">
+
+    <script src="../MainJs/sideNav.js"></script>
+    <script src="../MainJs/redirect.js"></script>
+
+    <title>About Shopozo</title>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img class="logo-img" src="../ShopozoPics/shopozo-logo.png" alt="Shopozo">
+        </div>
+
+        <div class="about-info-container">
+            <h4 class="about-title">
+                Shopozo is a multinational e-commerce corporation based in Baabdat, Maten, Lebanon,
+                you can find about every thing in our shop, our products are from the four corners of the world,
+                We ensure the quality of our products.
+
+                Currently we only accept cash on delevery as payment
+            </h4>
+
+            <div class="btn-container">
+                <button onclick="redirect('HOM')">Shop Now</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="main-footer others">
+        <div class="container">
+            <ul class="footer-links">
+                <li class="footer-link">
+                    <a href="../MainElements/about.html">About Shopozo</a>
+                </li>
+                <li class="footer-link">
+                    <a href="../MainElements/policies.html">Polocies</a>
+                </li>
+            </ul>
+    
+            <p class="copyright">Copyright © 2020-2020 Shopozo Inc. All Rights Reserved.</p>
+        </div>
+    </div>
+    
+    <div class="main-footer-mobile mobile">
+        <div class="container">
+            <ul class="footer-links-mobile">
+                <li class="footer-link">
+                    <a href="../MainElements/out.html">About Shopozo</a>
+                </li>
+                <li class="footer-link">
+                    <a href="../MainElements/policies.html">Polocies</a>
+                </li>
+            </ul>
+    
+            <p class="copyright" style="color: white;">Copyright © 2020-2020 Shopozo Inc. All Rights Reserved.</p>
+        </div>
+    </div>
+    
+    </body>
+    </html>

@@ -4,7 +4,7 @@
                 <a href="../MainPhp/index.php">Home</a>
             </li>
             <li>
-                <a href="#">Saved</a>
+                <a href="../MainPhp/savedProds.php">Saved</a>
             </li>
             <?php
                 //MOVE POINTER TO BEGENING

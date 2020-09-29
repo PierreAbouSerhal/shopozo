@@ -76,6 +76,30 @@ if(!isset($_GET["prodId"]) || empty($_GET["prodId"]))
     $title = $prodName." | Shopozo";
     include_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/MainElements/mainHeader.php");
 
+    //UPDATE HISTORY
+    if($user["userOk"])
+    {
+        $sqlVerifHist = "SELECT COUNT(*) AS rowNbr FROM history WHERE userId = ".$user["userId"].' AND productId = '.$prodId;
+
+        $queryVerifHist = mysqli_query($dbConx, $sqlVerifHist);
+
+        $resVerifHist = mysqli_fetch_assoc($queryVerifHist);
+
+        if($resVerifHist["rowNbr"] == 0)
+        {  
+            $sqlAddHist = 'INSERT INTO history (userId, productId, viewDate, viewTime)
+                                VALUES ('.$user["userId"].', '.$prodId.', CURDATE(), CURTIME())';
+                    
+            $queryAddHist = mysqli_query($dbConx, $sqlAddHist);
+        }
+    }
+    
+
+    if(!$user["userOk"])
+    {
+        $user["userId"] = -1;
+    }
+
     $userSaved = $userWList = array();
 
     if($user["userOk"])

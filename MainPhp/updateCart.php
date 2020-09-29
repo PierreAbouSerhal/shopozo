@@ -1,14 +1,14 @@
 <?php
     include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/PhpUtils/checkLoginStatus.php");
 
-    if(!isset($_GET["prodId"]) || !isset($_GET["qty"]))
+    if(!isset($_POST["prodId"]) || !isset($_POST["qty"]))
     {
-        header("Location: index.php");
+        echo 0;
         exit();
     }
 
-    $prodId  = mysqli_real_escape_string($dbConx, $_GET["prodId"]);
-    $prodQty = mysqli_real_escape_string($dbConx, $_GET["qty"]);
+    $prodId  = mysqli_real_escape_string($dbConx, $_POST["prodId"]);
+    $prodQty = mysqli_real_escape_string($dbConx, $_POST["qty"]);
 
     $sqlVerifProd = 'SELECT COUNT(*) AS rowNbr FROM products WHERE id = '.$prodId;
 
@@ -18,7 +18,7 @@
 
     if($resVerifProd["rowNbr"] == 0)
     {
-        header("Location: index.php");
+        echo 0;
         exit();
     }
 
@@ -28,14 +28,20 @@
 
     $resVerifCart = mysqli_fetch_assoc($queryVerifCart);
 
-    if($resVerifCart["rowNbr"] == 0)
+    if($resVerifCart["rowNbr"] == 1)
     {
-        $sqlInsert = 'INSERT INTO shoppingCarts (userId, productId, qty)
-                        VALUES ('.$user["userId"].', '.$prodId.', '.$prodQty.')';
+        $sqlUpdate = 'UPDATE shoppingCarts SET qty = '.$prodQty.'
+                      WHERE userId = '.$user["userId"].' AND productId = '.$prodId;
 
-        $queryInsert = mysqli_query($dbConx, $sqlInsert);
+        $queryUpdate = mysqli_query($dbConx, $sqlUpdate);
+
+        if($queryUpdate)
+        {
+            echo 1;
+            exit();
+        }
     }
 
-    header("Location: shoppingCart.php");
+    echo 0;
     exit();
 ?>

@@ -1,6 +1,11 @@
 <?php
-    $title = "Shopozo shipping cart";
+    $title = "Shopozo shopping cart";
     include_once($_SERVER["DOCUMENT_ROOT"]."/SHOPOZO/MainElements/mainHeader.php");
+
+    if(!$user["userOk"])
+    {
+        $user["userId"] = -1;
+    }
 
     $sqlFetchCart = 'SELECT products.*,
                             products.picture,
@@ -42,7 +47,20 @@
 </div>
 
 <?php
-    if($itemCnt == 0)
+    if(!$user["userOk"])
+    {
+        $msg = "You dont have an account";
+
+        echo '
+              <div class="empty-cart">
+                    <span class="empty-cart-msg">
+                        '.$msg.'
+                    </span>
+                    <button class="shop-now-btn" onclick="redirect(\'SIN\');">Sign in</button>
+                    <button style="margin-top:20px" class="shop-now-btn" onclick="redirect(\'REG\');">Register</button>
+              </div>';
+    }
+    else if($itemCnt == 0)
     {
         $msg = "You don't have any items in your cart. Let's get shopping!";
 
@@ -51,7 +69,7 @@
                     <span class="empty-cart-msg">
                         '.$msg.'
                     </span>
-                    <button class="shop-now-btn" onclick-"redirect(\'HOM\');">Start Shopping</button>
+                    <button class="shop-now-btn" onclick="redirect(\'HOM\');">Start Shopping</button>
               </div>';
     }
     else
@@ -73,48 +91,52 @@
             $prodStock = $resFetchCart["stock"];
             $subTotal  += $prodtotal;
 
-            echo '<div class="shopping-product-main-container">
-                    <div class="shopping-product-img-container">
-                        <img class="shopping-product-img" src="'.$resFetchCart["picture"].'">
-                    </div>
-                    <div class="shopping-product-all-info">
-                        <div class="shopping-product-info">
-                            <span class="shopping-product-name">'.$prodName.'</span>
-                            <span class="shopping-product-cond">'.$prodCond.'</span>
-                            <span class="shopping-product-descr">'.$prodDescr.'</span>
+            echo '
+            <span class="loading-wrapper"> 
+            <img class="loading-anim" id="img_'.$prodId.'" src="../ShopozoPics/loading-anim.gif">
+                <div class="shopping-product-main-container" id="product_'.$prodId.'">
+                        <div class="shopping-product-img-container">
+                            <img class="shopping-product-img" src="'.$resFetchCart["picture"].'" onclick="prodDetails('.$prodId.')">
                         </div>
-                        <div class="shopping-product-qty">';
+                        <div class="shopping-product-all-info">
+                            <div class="shopping-product-info">
+                                <span class="shopping-product-name" onclick="prodDetails('.$prodId.')">'.$prodName.'</span>
+                                <span class="shopping-product-cond">'.$prodCond.'</span>
+                                <span class="shopping-product-descr">'.$prodDescr.'</span>
+                            </div>
+                            <div class="shopping-product-qty">';
 
-                        if($prodStock == 1)
-                        {
-                            echo '<span class="prod-qty">Qty: '.$prodqty.'</span>';
-                        }
-                        else
-                        {
-                            echo '<span class="prod-qty">Qty: 
-                            <select class="prod-qty-select" name="prodQty">';
-                            for($i = 1; $i <= $prodStock ; $i++)
-                            {   
-                                $selected = ($i == $prodqty) ? "selected" : "";
-                                echo '<option value="'.$i.'" '.$selected.'>'.$i.'</option>';
+                            if($prodStock == 1)
+                            {
+                                echo '<span class="prod-qty">Qty: '.$prodqty.'</span>';
                             }
-                            echo '</select>
-                            </span>';
-                        }
-                echo '  </div>
-                        <div class="shopping-product-price">
-                            <span class="prod-price">'.$prodtotal.'$</span>
-                            <span style="display:none;" class="prod-original-price">'.$prodPrice.'</span>
+                            else
+                            {
+                                echo '<span class="prod-qty">Qty: 
+                                <select class="prod-qty-select" id="prod-qty-select_'.$prodId.'" name="prodQty">';
+                                for($i = 1; $i <= $prodStock ; $i++)
+                                {   
+                                    $selected = ($i == $prodqty) ? "selected" : "";
+                                    echo '<option value="'.$i.'" '.$selected.'>'.$i.'</option>';
+                                }
+                                echo '</select>
+                                </span>';
+                            }
+                    echo '  </div>
+                            <div class="shopping-product-price">
+                                <span class="prod-price">'.$prodtotal.'$</span>
+                                <span style="display:none;" class="prod-original-price">'.$prodPrice.'</span>
+                            </div>
                         </div>
+                        <img id="PRD_'.$prodId.'" class="delete-icon" src="../ShopozoPics/delete.svg">
                     </div>
-                    <img id="PRD_'.$prodId.'" class="delete-icon" src="../ShopozoPics/delete.svg">
-                </div>';
+                </span>';
         }
         echo '</div>
-            
+
               <div class="right-column">
                 <div class="cartssummary">
-                <button class="go-to-checkout-btn">Go to checkout</button>
+                <button class="go-to-checkout-btn" onclick="redirect(\'CHK\')">Go to checkout</button>
                 <span class="item-cnt">
                     item'.$plural.' ('.$itemCnt.')
                 </span>
@@ -122,6 +144,9 @@
                     <span class="subtotal-label sub-font">Subtotal</span>
                     <span id="subtotal" class="subtotal sub-font">'.$subTotal.'</span>
                 </div>
+              </div>
+              <div style="margin-top:10px;text-align:left;padding-left:15px">
+                <a style="color:#6EBE47;margin-top: 10px;font-size:0.8rem" href="../Mainphp/orders.php?orderId=-1">View orders</a>
               </div>
             </div>
         </div>';
@@ -163,18 +188,50 @@
             });
         });
         
-        $(".prod-qty-select").change(function(){
-        let qty      = $(this).val();
-        let original = $(this).parent().parent().next(".shopping-product-price").children(".prod-original-price").html();
-        console.log(original);
-        let newTot   = qty * original;
+        $(".prod-qty-select").change(function()
+        {   
+            let el         = this;
+            let qty        = $(el).val();
+            let original   = $(el).parent().parent().next(".shopping-product-price").children(".prod-original-price").html();
+            
+            let newTot     = qty * original;
 
-        let orderTotal = $("#subtotal").html();
-        orderTotal -= $(this).parent().next(".total-item-price").text().slice(0, -1);
-        orderTotal += newTot;
+            let orderTotal = $("#subtotal").html();
+            orderTotal    -= $(el).parent().parent().next(".shopping-product-price").children(".prod-price").html().slice(0, -1);
+            orderTotal    += newTot;
 
-        $(this).parent().next(".total-item-price").text(newTot.toFixed(2));
-        $("#subtotal").html(orderTotal.toFixed(2));
+            let id = this.id;
+            let splitid = id.split("_");
+
+            //IDS
+            let prodId = splitid[1];
+            $("#product_"+prodId).addClass("loading"); 
+            $("#img_"+prodId).css("display", "block");
+
+            //AJAX REQUEST
+            $.ajax(
+            {
+                url: 'updateCart.php',
+                type: 'POST',
+                data: { prodId: prodId, qty: qty},
+                success: function(response)
+                {
+                    if(response == 1)
+                    {
+
+                        $(el).parent().parent().next(".shopping-product-price").children(".prod-price").html(newTot.toFixed(2)+"$");
+                        $("#subtotal").html(orderTotal.toFixed(2));
+
+                        $("#product_"+prodId).removeClass("loading"); 
+                        $("#img_"+prodId).css("display", "none");
+                    }
+                    else
+                    {
+                        alert("Unable to update your shopping cart");
+                    }
+                }
+            });
+        });
     });
 
 </script>
