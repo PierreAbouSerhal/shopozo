@@ -14,7 +14,7 @@
         return $activCode;
     }
 
-
+ 
     function emailIsValid($email)
     {
         $mailformat = "/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/";

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2020 at 02:42 PM
+-- Generation Time: Sep 30, 2020 at 01:31 AM
 -- Server version: 5.7.17
 -- PHP Version: 7.1.3
 
@@ -339,6 +339,13 @@ CREATE TABLE `history` (
   `viewTime` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `history`
+--
+
+INSERT INTO `history` (`userId`, `productId`, `viewDate`, `viewTime`) VALUES
+(1, 3, '2020-09-29', '21:35:02');
+
 -- --------------------------------------------------------
 
 --
@@ -417,10 +424,7 @@ INSERT INTO `productpics` (`productId`, `picture`, `isPrimary`) VALUES
 (4, '/Shopozo/ProductPics/iphone11back.png', 0),
 (5, '/Shopozo/ProductPics/samsungs10.png', 1),
 (6, '/Shopozo/ProductPics/samsungs11.png', 1),
-(7, '/Shopozo/ProductPics/huaweiy7prime2018.jpg', 1),
-(8, '/Shopozo/ProductPics/Huawei-P40-Pro-1.png', 1),
-(8, '/Shopozo/ProductPics/Huawei-P40-Pro-2.png', 0),
-(8, '/Shopozo/ProductPics/Huawei-P40-Pro-3.png', 0);
+(7, '/Shopozo/ProductPics/huaweiy7prime2018.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -440,7 +444,6 @@ CREATE TABLE `products` (
   `prodCond` varchar(255) NOT NULL,
   `shipTime` int(11) NOT NULL,
   `modifDate` date NOT NULL,
-  `totalViews` int(11) NOT NULL DEFAULT '0',
   `totalWatchers` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -448,13 +451,12 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `subCategId`, `brandId`, `name`, `price`, `discount`, `stock`, `descr`, `prodCond`, `shipTime`, `modifDate`, `totalViews`, `totalWatchers`) VALUES
-(3, 1, 1, 'Iphone X 64GB', '999.00', 20, 10, '5.8-inch OLED display, facial recognition and 3D camera functionality, a glass body, and an A11 Bionic processor', 'New', 2, '2020-09-21', 0, 0),
-(4, 1, 1, 'Iphone 11 64GB', '1099.00', NULL, 13, '6.1-inch LCD display \"Liquid Retina HD Display.\" It features a 1792 x 828 resolution at 326ppi, a 1400:1 contrast ratio, 625 nits max brightness, True Tone support for adjusting the white balance to the ambient lighting, and wide color support', 'New', 2, '2020-09-21', 0, 1),
-(5, 2, 2, 'Samsung Galaxy S10 128GB', '749.99', NULL, 40, 'powered by Octa core (2.73 GHz, Dual core, M4 Mongoose + 2.31 GHz, Dual core, Cortex A75 + 1.95 GHz, Quad core, Cortex A55) processor. It runs on the Samsung Exynos 9 Octa 9820 Chipset. It has 8 GB RAM and 128 GB internal storage. Samsung Galaxy S10 smartphone has a Dynamic AMOLED display.\r\nRam: 8 GB', 'New', 3, '2020-09-21', 0, 0),
-(6, 2, 2, 'Samsung Galaxy S11 512GB', '1299.00', NULL, 6, 'runs on Android v10 (Q) operating system. The phone is powered by Octa core (2.73 GHz, Dual core + 2.31 GHz, Dual core, Cortex A75 + 1.95 GHz, Quad core, Cortex A55) processor. It runs on the Samsung Exynos 9 Octa 990 Chipset. It has 8 GB RAM and 256 GB internal storage.\r\nRam: 8 GB\r\n\r\n', 'New', 3, '2020-09-21', 0, 0),
-(7, 3, 3, 'Huawei Y7 Prim 2018', '199.00', NULL, 120, 'powered by a 1.4GHz octa-core Qualcomm Snapdragon 430 processor. It comes with 3GB of RAM. The Huawei Y7 Prime 2018 runs Android 8.0 Oreo and is powered by a 3000mAh battery. As far as the cameras are concerned, the Huawei Y7 Prime 2018 on the rear packs 13-megapixel camera.', 'New', 5, '2020-09-21', 0, 0),
-(8, 3, 3, 'Huawei P40 Pro 256GB', '859.00', NULL, 54, 'runs on Android v10 (Q) operating system. The phone is powered by Octa core (2.86 GHz, Dual core, Cortex A76 + 2.36 GHz, Dual core, Cortex A76 + 1.95 GHz, Quad core, Cortex A55) processor. It runs on the HiSilicon Kirin 990 5G Chipset. It has 8 GB RAM and 256 GB internal storage.', 'New', 5, '2020-09-21', 0, 0);
+INSERT INTO `products` (`id`, `subCategId`, `brandId`, `name`, `price`, `discount`, `stock`, `descr`, `prodCond`, `shipTime`, `modifDate`, `totalWatchers`) VALUES
+(3, 1, 1, 'Iphone X 64GB', '999.00', 20, 10, '5.8-inch OLED display, facial recognition and 3D camera functionality, a glass body, and an A11 Bionic processor', 'New', 2, '2020-09-21', 0),
+(4, 1, 1, 'Iphone 11 64GB', '1099.00', NULL, 13, '6.1-inch LCD display \"Liquid Retina HD Display.\" It features a 1792 x 828 resolution at 326ppi, a 1400:1 contrast ratio, 625 nits max brightness, True Tone support for adjusting the white balance to the ambient lighting, and wide color support', 'New', 2, '2020-09-21', 1),
+(5, 2, 2, 'Samsung Galaxy S10 128GB', '749.99', NULL, 40, 'powered by Octa core (2.73 GHz, Dual core, M4 Mongoose + 2.31 GHz, Dual core, Cortex A75 + 1.95 GHz, Quad core, Cortex A55) processor. It runs on the Samsung Exynos 9 Octa 9820 Chipset. It has 8 GB RAM and 128 GB internal storage. Samsung Galaxy S10 smartphone has a Dynamic AMOLED display.\r\nRam: 8 GB', 'New', 3, '2020-09-21', 0),
+(6, 2, 2, 'Samsung Galaxy S11 512GB', '1299.00', NULL, 6, 'runs on Android v10 (Q) operating system. The phone is powered by Octa core (2.73 GHz, Dual core + 2.31 GHz, Dual core, Cortex A75 + 1.95 GHz, Quad core, Cortex A55) processor. It runs on the Samsung Exynos 9 Octa 990 Chipset. It has 8 GB RAM and 256 GB internal storage.\r\nRam: 8 GB\r\n\r\n', 'New', 3, '2020-09-21', 0),
+(7, 3, 3, 'Huawei Y7 Prim 2018', '199.00', NULL, 120, 'powered by a 1.4GHz octa-core Qualcomm Snapdragon 430 processor. It comes with 3GB of RAM. The Huawei Y7 Prime 2018 runs Android 8.0 Oreo and is powered by a 3000mAh battery. As far as the cameras are concerned, the Huawei Y7 Prime 2018 on the rear packs 13-megapixel camera.', 'New', 5, '2020-09-21', 0);
 
 -- --------------------------------------------------------
 
@@ -503,14 +505,7 @@ INSERT INTO `productspecs` (`id`, `productId`, `specId`, `value`) VALUES
 (34, 7, 7, 'Android 8.0 (Oreo), EMUI 8'),
 (35, 7, 7, 'Qualcomm MSM8937 Snapdragon 430 (28 nm)'),
 (36, 7, 1, 'Black, Gold, Blue'),
-(37, 7, 5, '720 x 1440 pixels, 18:9 ratio'),
-(38, 8, 2, '209 g '),
-(39, 8, 3, 'Single SIM (Nano-SIM/eSIM)'),
-(40, 8, 4, '6.58 inches, 105.2 cm2'),
-(41, 8, 5, '1200 x 2640 pixels'),
-(42, 8, 6, 'Android 10, EMUI 10.1'),
-(43, 8, 7, 'Kirin 990 5G (7 nm+)'),
-(44, 8, 1, 'Blush Gold');
+(37, 7, 5, '720 x 1440 pixels, 18:9 ratio');
 
 -- --------------------------------------------------------
 
@@ -679,7 +674,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role`, `first`, `last`, `email`, `phone`, `countryId`, `province`, `city`, `street`, `postalCode`, `passHash`, `activationCode`, `activated`, `creationDate`) VALUES
-(1, 'CLIENT', 'Pierre', 'Abou Serhal', 'pieroas123321@gmail.com', '76331288', 118, 'Maten', 'Baabdat', 'Mar Gergers Street', '123456', '$2y$10$WcfzviIkZhn4mrPrTQ.sB.b54j1y7HE3wDFjnft4qhAHHhfuTrb9K', '$2y$10$JLrzSAMZam8gsIPOeoIfD.cEXL8JWrb7TRpPKtvCztNru1yQb41re', 1, '2020-08-27');
+(1, 'ADMIN', 'Pierre', 'Abou Serhal', 'pieroas123321@gmail.com', '76331288', 118, 'Maten', 'Baabdat', 'Mar Gergers Street', '123456', '$2y$10$WcfzviIkZhn4mrPrTQ.sB.b54j1y7HE3wDFjnft4qhAHHhfuTrb9K', '$2y$10$JLrzSAMZam8gsIPOeoIfD.cEXL8JWrb7TRpPKtvCztNru1yQb41re', 1, '2020-08-27');
 
 -- --------------------------------------------------------
 
@@ -699,7 +694,7 @@ CREATE TABLE `usertokens` (
 --
 
 INSERT INTO `usertokens` (`userId`, `hashedToken`, `creationDate`, `creationTime`) VALUES
-(1, 'b5db7c3abe24e3b66a8c35335f2c42fe4a04ae7f279b10921df84b902cd295e1', '2020-09-29', '10:55:56');
+(1, '9e488ab47ca7e949caeebdeed75eb26b9d59b5960df08c4b9cb9813d9d353972', '2020-09-29', '23:55:22');
 
 -- --------------------------------------------------------
 

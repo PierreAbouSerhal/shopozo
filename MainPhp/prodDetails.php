@@ -31,7 +31,6 @@ if(!isset($_GET["prodId"]) || empty($_GET["prodId"]))
     $prodStock     = $resFetchProd["stock"];
     $prodDescr     = $resFetchProd["descr"];
     $prodCond      = $resFetchProd["prodCond"];
-    $prodTotSold   = $resFetchProd["totalSold"];
     $prodTotWatch  = $resFetchProd["totalWatchers"];
     $prodShipTime  = $resFetchProd["shipTime"];
     $prodSubCateg  = $resFetchProd["subCategId"];

@@ -91,6 +91,10 @@
             </div>
             <div class="header-right-corner">
                 <?php
+                    if($user["userOk"] && $isAdmin)
+                    {
+                        echo '<a href="../AdminPages/generalInfo.php">Update Shopozo</a>';
+                    }
                     if($user["userOk"])
                     {
                         echo '
@@ -126,6 +130,10 @@
         </div>
         <div class="mobile-menu-header">
             <?php
+                if($user["userOk"] && $isAdmin)
+                {
+                    echo '<img class="menu-img" src="../ShopozoPics/settings.svg" alt="update" onclick="redirect(\'ADM\');">';
+                }
                 if($user["userOk"])
                 {
                     echo '
