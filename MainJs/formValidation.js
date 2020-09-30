@@ -591,4 +591,110 @@ $(document).ready(function() {
 
         return valid;
     });
+
+
+    $("#updateBrands").submit(function() {
+
+        let valid = true;
+        
+        let isEmptyName  = ($("#ibname").val()  == "") ? true : false;
+
+        if(isEmptyName)
+        {
+            $("#lbname").css("color", error);
+            $("#sbname").css("color", error);
+
+            $("#lbname").css("border-bottom", "1px solid " + error);
+            $("#lbname").css("--bottomBorder", "3px solid " + error);
+
+            $("#errorBName").html("brand Name is empty");
+        }
+        else
+        {
+            $("#lbname").css("color", success);
+            $("#sbname").css("color", success);
+
+            $("#lbname").css("border-bottom", "1px solid " + normal);
+            $("#lbname").css("--bottomBorder", "3px solid " + success);
+
+            $("#errorBName").html("");
+        }
+
+        if(isEmptyName)
+        {
+            valid = false;
+        }
+
+        return valid;
+    });
+
+    $("#updateCategories").submit(function() {
+
+        let valid = true;
+        
+        let isEmptyName  = ($("#icname").val()  == "") ? true : false;
+
+        if(isEmptyName)
+        {
+            $("#lcname").css("color", error);
+            $("#scname").css("color", error);
+
+            $("#lcname").css("border-bottom", "1px solid " + error);
+            $("#lcname").css("--bottomBorder", "3px solid " + error);
+
+            $("#errorCName").html("brand Name is empty");
+        }
+        else
+        {
+            $("#lcname").css("color", success);
+            $("#scname").css("color", success);
+
+            $("#lcname").css("border-bottom", "1px solid " + normal);
+            $("#lcname").css("--bottomBorder", "3px solid " + success);
+
+            $("#errorCName").html("");
+        }
+
+        if(isEmptyName)
+        {
+            valid = false;
+        }
+
+        return valid;
+    });
+
+    $("#updatespecs").submit(function() {
+    
+        let valid = true;
+        
+        let isEmptyName  = ($("#isname").val()  == "") ? true : false;
+
+        if(isEmptyName)
+        {
+            $("#lsname").css("color", error);
+            $("#ssname").css("color", error);
+
+            $("#lsname").css("border-bottom", "1px solid " + error);
+            $("#lsname").css("--bottomBorder", "3px solid " + error);
+
+            $("#errorSName").html("Spec is empty");
+        }
+        else
+        {
+            $("#lsname").css("color", success);
+            $("#ssname").css("color", success);
+
+            $("#lsname").css("border-bottom", "1px solid " + normal);
+            $("#lsname").css("--bottomBorder", "3px solid " + success);
+
+            $("#errorSName").html("");
+        }
+
+        if(isEmptyName)
+        {
+            valid = false;
+        }
+
+        return valid;
+    });
 });

@@ -243,10 +243,6 @@
 
 
             </form>
-
-            <div class="right-column">
-
-            </div>
       </div>
 
 <!-- CLOSING PAGE CONTAINER, BODY, HTML -->
