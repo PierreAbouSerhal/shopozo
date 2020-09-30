@@ -19,7 +19,7 @@ if(isset($_GET["id"]) && !empty($_GET["id"]))//EDIT SUB CATEG
 //ON SUBMIT
 if(isset($_POST["saveSubCateg"]))
 {
-    if(!empty($_POST["subName"]) && !empty($_POST["subCategId"]) && !empty($_POST["subPic"]) && !empty($_POST["spec_list"]))
+    if(!empty($_POST["subName"]) && !empty($_POST["categId"]) && !empty($_POST["spec_list"]))
     {
         $sqlCheck   = 'SELECT *, COUNT(*) AS rowNbr FROM subcategories WHERE id = '.$subCategId;
 
@@ -28,8 +28,7 @@ if(isset($_POST["saveSubCateg"]))
         $resCheck   = mysqli_fetch_assoc($queryCheck);
 
         $subName    = mysqli_real_escape_string($dbConx, $_POST["subName"]);
-        $CategId    = mysqli_real_escape_string($dbConx, $_POST["CategId"]);
-        $subPic     = mysqli_real_escape_string($dbConx, $_POST["subPic"]);
+        $CategId    = mysqli_real_escape_string($dbConx, $_POST["categId"]);
         $save       = true;
         $specIds    = array();
 
@@ -43,7 +42,7 @@ if(isset($_POST["saveSubCateg"]))
         }
 
         $subImg = $resCheck["picture"];
-
+        
         //UPLOAD THE IMAGE
         if(file_exists($_FILES['sub-img']['tmp_name']) || is_uploaded_file($_FILES['sub-img']['tmp_name']))
         {
@@ -69,7 +68,7 @@ if(isset($_POST["saveSubCateg"]))
             if($uploadOk == 1)
             {
                 move_uploaded_file($_FILES["sub-img"]["tmp_name"], $target_file);
-                $subImg = '"/Shopozo/SubCategPics/'.basename($_FILES["sub-img"]["name"]).'"';
+                $subImg = '/Shopozo/SubCategPics/'.basename($_FILES["sub-img"]["name"]);
             }
         }
 
@@ -88,6 +87,7 @@ if(isset($_POST["saveSubCateg"]))
                                 categoryId = '.$CategId.', picture = "'.$subImg.'" WHERE id = '.$subCategId;
 
             $queryUpdateSub = mysqli_query($dbConx, $sqlUpdateSub);
+            
         }
 
         //DELETE IF EXISTS
@@ -106,8 +106,54 @@ if(isset($_POST["saveSubCateg"]))
                 
             }
         }
+
+        $sqlUpdateProdSpecs = 'DELETE FROM productSpecs
+                               WHERE productSpecs.specId 
+                               NOT IN 
+                                    (
+                                        SELECT specId
+                                        FROM subcategspecs
+                                        WHERE subcategspecs.subCategId = '.$subCategId.'
+                                    )
+                                AND productSpecs.productId 
+                                IN (
+                                    SELECT id 
+                                    FROM products
+                                    WHERE products.subCategId = '.$subCategId.'
+                                )';
+
+        $queryUpdateProdSpecs = mysqli_query($dbConx, $sqlUpdateProdSpecs);
+
+        $sqlFetchNewSubSpecs = 'SELECT subcategspecs.*,
+                                       products.id AS productId     
+                                FROM subcategspecs
+                                JOIN products 
+                                ON subcategspecs.subCategId = products.subCategId
+                                WHERE products.subCategId = '.$subCategId;
+
+        $queryFetchNewSubSpecs = mysqli_query($dbConx, $sqlFetchNewSubSpecs);
+
+        while($resFetchNewSubSpecs = mysqli_fetch_assoc($queryFetchNewSubSpecs))
+        {
+            $prodId = $resFetchNewSubSpecs["productId"];
+            $specId = $resFetchNewSubSpecs["specId"];
+
+            $sqlValid = 'SELECT COUNT(*) AS rowNbr FROM productSpecs WHERE productId = '.$prodId.' AND specId = '.$specId;
+
+            $queryValid = mysqli_query($dbConx, $sqlValid);
+
+            $resValid = mysqli_fetch_assoc($queryValid);
+
+            if($resValid["rowNbr"] == 0)
+            {
+                $sqlInsertNewProdSpecs = 'INSERT INTO productSpecs (productId, specId)
+                                            VALUES ('.$prodId.', '.$specId.')';
+                        
+                $queryInsertNewProdSpecs = mysqli_query($dbConx, $sqlInsertNewProdSpecs);
+
+            }          
+        }
     }
-    
 }
 
 $sqlSubInfo = 'SELECT *, COUNT(*) AS rowNbr FROM subCategories WHERE id = '.$subCategId;
@@ -156,7 +202,7 @@ include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/MainElements/adminHeader.php");
         <?php include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/MainElements/manageLinks.html");?>
     </div>
                     
-    <form id="updatespecs" class="middle-column" action="<?php $action = $_SERVER["PHP_SELF"]."?id=".$subCategId; echo $action;?>" method="POST">
+    <form id="updatespecs" class="middle-column" action="<?php $action = $_SERVER["PHP_SELF"]."?id=".$subCategId; echo $action;?>" method="POST" enctype="multipart/form-data">
 
         <div id="dscname" class="input-container">
             <input type="text" id="iscname" name="subName" autocomplete="off" placeholder=" " value="<?php echo $resSubInfo["name"]?>"/>
@@ -212,10 +258,10 @@ include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/MainElements/adminHeader.php");
             <div class="image-upload">
                 <label for="file-input">
                 <div class="upload-icon">
-                    <img class="icon" src="<?php $src = (empty($resSubInfo["picture"])) ? "https://image.flaticon.com/icons/png/128/61/61112.png" : $resSubInfo["picture"]; echo $src?>">
+                    <img class="icon" src="<?php $src = (empty($resSubInfo["picture"])) ? "../ShopozoPics/plus-sign.png" : $resSubInfo["picture"]; echo $src?>">
                 </div>
                 </label>
-            <input id="file-input" type="file" name="subPic"/>
+                <input id="file-input" type="file" name="sub-img"/>
             </div>
         </div>
 
@@ -268,5 +314,13 @@ include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/MainElements/adminHeader.php");
 
 <!-- CLOSING PAGE CONTAINER, BODY, HTML -->
 </div>
+
+<!-- JQUERY TO SHOW SELECTED IMAGE -->
+<script>
+    $('#file-input').change( function(event) {
+    $("img.icon").attr('src',URL.createObjectURL(event.target.files[0]));
+    $("img.icon").parents('.upload-icon').addClass('has-img');
+});
+</script>
 </body>
 </html>

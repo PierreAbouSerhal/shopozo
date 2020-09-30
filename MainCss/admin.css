@@ -169,6 +169,37 @@
     flex-direction: row;
 }
 
+.img-row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#file-input{
+    text-indent: -999em;
+    outline: none;
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	z-index: -1;
+}
+
+.upload-icon{
+    padding: 5px;
+    border: 1px dashed #9E9E9E;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+img.icon{
+    max-width: 200px;
+    max-height: 200px;
+}
+
 @media (max-width: 500px){
 
     .admin-logo-img{

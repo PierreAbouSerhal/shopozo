@@ -22,6 +22,7 @@
     $queryRecent = mysqli_query($dbConx, $sqlRecent);
 
     $sqlDaily = 'SELECT prodPic.picture,
+                        prod.id AS prodId,
                         prod.price,
                         prod.discount,
                         prod.name AS prodName
@@ -85,7 +86,7 @@
                 while($resIntrested = mysqli_fetch_assoc($queryIntrested))
                 {
                     echo '<div class="carousel-intrested-container">
-                                <img class="carousel-intrested-img" src="'.$resIntrested["picture"].'" alt="'.$resIntrested["prodName"].'">
+                                <img class="carousel-intrested-img" src="'.$resIntrested["picture"].'" alt="'.$resIntrested["prodName"].'" onclick="prodDetails('.$resIntrested["prductId"].')">
                           </div>
                         
                     ';
@@ -137,7 +138,7 @@
         if(mysqli_num_rows($queryRecent) > 0)
         {
             echo '<div class="link-title">
-                    <a href="#">See all your Viewed Items</a>
+                    <a href="../MainPhp/history.php">See all your Viewed Items</a>
                     <img src="../ShopozoPics/right-arrow.png" style="width: 15px;" alt="Go">
                 </div>
                 <div class="carousel" style="text-align: left;">';
@@ -146,14 +147,14 @@
             {
                 echo '
                         <div class="carousel-item-container">
-                            <img class="carousel-item-img" src="'.$resRecent["picture"].'" alt="'.$resRecent["prodName"].'">
+                            <img class="carousel-item-img" style="max-width:200px;max-height:200px" src="'.$resRecent["picture"].'" alt="'.$resRecent["prodName"].'" onclick="prodDetails('.$resRecent["productId"].')">
                             <div class="carousel-price-container">
                                 <span class="carousel-item-discount-price">'.$resRecent["price"].'$</span>
                             </div>
                         </div>
-                    </div>
                 ';
             }
+            echo '</div>';
             mysqli_free_result($queryRecent);
         } 
     }
@@ -179,7 +180,7 @@
 
                 echo '
                     <div class="carousel-item-container">
-                        <img class="carousel-item-img" src="'.$resDaily["picture"].'" alt="'.$resDaily["prodName"].'">
+                        <img class="carousel-item-img" src="'.$resDaily["picture"].'" alt="'.$resDaily["prodName"].'" onclick="prodDetails('.$resDaily["prodId"].')">
                         <div class="carousel-price-container">
                             <div class="carousel-item-discount-price">'.$prodDiscPrice.'$</div>';
                             if(!empty($prodDisc))

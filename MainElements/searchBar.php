@@ -20,7 +20,7 @@
                 $href = "specs.php";
                 break;
             case "BRD":
-                $href = "brnds.php";
+                $href = "brands.php";
                 break;
         }    
     ?>

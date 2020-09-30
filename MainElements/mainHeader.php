@@ -38,7 +38,7 @@
 
     include_once($_SERVER["DOCUMENT_ROOT"]."/Shopozo/MainElements/doctype.html");
 ?>
-
+    <link rel="shortcut icon" href="../ShopozoPics/shopozo-logo.png" type="image/png">
     <link rel="stylesheet" href="../MainCss/mainHeader.css">
     <link rel="stylesheet" href="../MainCss/sideNav.css">
     <link rel="stylesheet" href="../MainCss/profile.css">

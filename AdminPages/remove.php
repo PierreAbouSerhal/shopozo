@@ -18,7 +18,7 @@
             $table = "subcategories";
             break;
         case "BRD":
-            $table = "productbrands";
+            $table = "brands";
             break;
         case "SPC":
             $table = "specs";
